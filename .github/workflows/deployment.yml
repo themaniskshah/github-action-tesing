@@ -14,9 +14,7 @@ jobs:
     runs-on: 'ubuntu-20.04'
     steps:
       - name: Set the variables
-        env:
-          DEFAULT_MESSAGE: 'sandbox' # here is the default message
-        run: echo "MESSAGE=${{ github.event.inputs.sandbox || env.DEFAULT_MESSAGE }}" >> $GITHUB_ENV
+        run: echo "MESSAGE=${{ github.event.inputs.sandbox}}" >> $GITHUB_ENV
 
       - name: Print some text
         run: echo "$MESSAGE" # prints the environmental variable, MESSAGE
