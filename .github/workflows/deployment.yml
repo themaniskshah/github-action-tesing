@@ -5,6 +5,7 @@ on:
       sandbox:
         description: 'Deploy the sandbox environment'
         required: true
+        default: 'sandbox'
 
 jobs:
   Deployment:
