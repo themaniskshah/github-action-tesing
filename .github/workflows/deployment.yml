@@ -1,0 +1,19 @@
+name: 'Deployment Pipeline for Sandbox'
+on:
+  schedule:
+    - cron: 00 03 * * 1
+  workflow_dispatch:
+    inputs:
+      environment:
+        required: true
+        default: 'sandbox'
+        description: 'Deploy the sandbox environment'
+
+jobs:
+  Deployment:
+    name: 'Deployment Pipeline For Testing'
+    runs-on: ubuntu-20.04
+    steps:
+      # https://github.com/actions/checkout (Community)
+      - name: 'Checkout'
+        uses: actions/checkout@v2.3.4
