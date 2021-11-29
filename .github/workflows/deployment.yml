@@ -1,7 +1,7 @@
 name: 'Deployment Pipeline for Sandbox'
 on:
   schedule:
-    - cron: * * * * *
+    - cron: 1 * * * *
   workflow_dispatch:
     inputs:
       environment:
