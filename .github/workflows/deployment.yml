@@ -3,7 +3,8 @@ on:
   # schedule:
   #   - cron: 5 * * * *
   workflow_dispatch:
-    - sandbox
+    inputs:
+      sandbox 
 
 jobs:
   Deployment:
