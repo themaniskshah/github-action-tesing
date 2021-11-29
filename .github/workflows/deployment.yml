@@ -1,5 +1,6 @@
 name: 'Deployment Pipeline for Sandbox'
 on:
+  push:
   workflow_dispatch:
     inputs:
       sandbox:
