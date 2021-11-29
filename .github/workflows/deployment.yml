@@ -5,9 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        required: false
         default: 'sandbox'
-        description: 'Deploy the sandbox environment'
 
 jobs:
   Deployment:
