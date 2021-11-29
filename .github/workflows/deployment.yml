@@ -2,9 +2,9 @@ name: 'Deployment Pipeline for Sandbox'
 on:
   workflow_dispatch:
     inputs:
-      environment:
-        default: 'sandbox'
+      sandbox:
         description: 'Deploy the sandbox environment'
+        required: true
 
 jobs:
   Deployment:
