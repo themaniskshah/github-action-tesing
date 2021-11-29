@@ -7,7 +7,7 @@ on:
     inputs:
       sandbox:
         description: 'Deploy the sandbox environment'
-        required: false
+        required: true
         default: 'sandbox'
 
 jobs:
