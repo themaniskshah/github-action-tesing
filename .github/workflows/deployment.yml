@@ -3,36 +3,27 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        required: true
-        type: choice
-        description: Select Environment name
-        options:
-        - 
-        - alex
-        - bogdan
-        - dev
-        - joakim
-        - mxkh
-        - maxsolomatin
-        - nataliia
-        - stepan
-        - sviat
-        - tobias
-        - viktor
+        type: environment
+        description: Select the environment
+      boolean:
+        type: boolean
+        description: True or False
       choice:
         type: choice
         description: Make a choice
         options:
-        - print_text
+        - foo
         - bar
         - baz
-
 jobs:
-  print_text:
-    runs-on: 'ubuntu-20.04'
-    steps:
-      - name: Set the variables
-        run: echo "${{ github.event.inputs.sandbox}}"
+  build:
+    runs-on: ubuntu-latest
 
-      - name: Print some text
-        run: echo "$MESSAGE" # prints the environmental variable, MESSAGE
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: greet
+        run: | 
+          echo "environment is ${{ github.event.inputs.environment }}"
+          echo "boolean is ${{ github.event.inputs.boolean }}"
+          echo "choice is ${{ github.event.inputs.choice }}"
