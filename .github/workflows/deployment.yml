@@ -1,13 +1,20 @@
 name: 'Deployment Pipeline for Sandbox'
 on:
-  # workflow_dispatch:
-  #   inputs:
-  #     sandbox:
-  #       description: 'Deploy the sandbox environment'
-  #       required: true
-  #       default: 'sandbox'
-  # schedule:
-  #   - cron: '* * * * *'
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: environment
+        description: Select the environment
+      boolean:
+        type: boolean
+        description: True or False
+      choice:
+        type: choice
+        description: Make a choice
+        options:
+          - foo
+          - bar
+          - baz
 
 jobs:
   print_text:
