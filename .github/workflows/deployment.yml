@@ -18,16 +18,16 @@ on:
         - sviat
         - tobias
         - viktor
-      boolean:
-        type: boolean
-        description: True or False
-      choice:
-        type: choice
-        description: Make a choice
-        options:
-        - foo
-        - bar
-        - baz
+      # boolean:
+      #   type: boolean
+      #   description: True or False
+      # choice:
+      #   type: choice
+      #   description: Make a choice
+      #   options:
+      #   - foo
+      #   - bar
+      #   - baz
 
 jobs:
   print_text:
