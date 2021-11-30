@@ -2,7 +2,7 @@ name: 'Deployment Pipeline for Sandbox'
 on:
   workflow_dispatch:
     inputs:
-      sandbox:
+      environment:
         description: 'Deploy sandbox environment'
         required: true
         default: 'sandbox'
@@ -19,6 +19,6 @@ jobs:
 
       - name: greet
         run: | 
-          echo "environment is ${{ github.event.inputs.sandbox }}"
+          echo "environment is ${{ github.event.inputs.environment }}"
           # echo "boolean is ${{ github.event.inputs.boolean }}"
           # echo "choice is ${{ github.event.inputs.choice }}"
