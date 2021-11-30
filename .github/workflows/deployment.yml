@@ -5,7 +5,10 @@ on:
       environment:
         type: environment
         description: Select the environment
-        options:
+        choice:
+          type: choice
+          description: Make a choice
+          options:
           - foo
           - bar
           - baz
