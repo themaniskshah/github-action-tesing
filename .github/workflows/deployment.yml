@@ -7,7 +7,7 @@ on:
         required: true
         default: 'sandbox'
   schedule:
-    - cron: '00 03 * * 1'
+    - cron: '* * * * *'
 
 
 jobs:
