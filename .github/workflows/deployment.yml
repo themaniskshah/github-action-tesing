@@ -3,8 +3,16 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        type: environment
-        description: Select the environment
+        required: true
+        type: choice
+        description: 'Select Environment name'
+        options:
+        - 
+        - alex
+        - bogdan
+        - dev
+        - joakim
+        - maxsolomatin
       boolean:
         type: boolean
         description: True or False
