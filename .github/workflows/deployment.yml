@@ -2,27 +2,14 @@ name: 'Deployment Pipeline for Sandbox'
 on:
   workflow_dispatch:
     inputs:
-      environment:
+      sandbox:
+        description: 'Deploy sandbox environment'
         required: true
-        type: choice
-        description: 'Select Environment name'
-        options:
-        - 
-        - alex
-        - bogdan
-        - dev
-        - joakim
-        - maxsolomatin
-      boolean:
-        type: boolean
-        description: True or False
-      choice:
-        type: choice
-        description: Make a choice
-        options:
-        - foo
-        - bar
-        - baz
+        default: 'sandbox'
+  schedule:
+    - cron: '00 03 * * 1'
+
+    
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -33,5 +20,5 @@ jobs:
       - name: greet
         run: | 
           echo "environment is ${{ github.event.inputs.environment }}"
-          echo "boolean is ${{ github.event.inputs.boolean }}"
-          echo "choice is ${{ github.event.inputs.choice }}"
+          # echo "boolean is ${{ github.event.inputs.boolean }}"
+          # echo "choice is ${{ github.event.inputs.choice }}"
