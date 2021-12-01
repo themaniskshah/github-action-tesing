@@ -3,6 +3,13 @@ on:
   push:
     branches:
       - test
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deploy sandbox environment'
+        required: true
+        default: 'sandbox'
+
 
 jobs:
   build:
