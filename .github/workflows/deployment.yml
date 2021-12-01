@@ -6,8 +6,8 @@ on:
         description: 'Deploy sandbox environment'
         required: true
         default: 'sandbox'
-  schedule:
-    - cron: '* * * * *'
+#   schedule:
+#     - cron: '* * * * *'
 
 
 jobs:
