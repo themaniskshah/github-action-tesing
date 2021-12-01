@@ -2,7 +2,7 @@ name: 'Deployment Pipeline for Sandbox'
 on:
   push:
     branches:
-      - SS-395
+      - test
 
 jobs:
   build:
