@@ -3,11 +3,11 @@ on:
   push:
     branches:
       - SS-395
-  # workflow_dispatch:
-  #   inputs:
-  #     dev:
-  #       description: 'Deploy dev environment'
-  #       required: true
+  workflow_dispatch:
+    inputs:
+      dev:
+        description: 'Deploy dev environment'
+        required: true
 
 jobs:
   print_text:
