@@ -1,13 +1,14 @@
 name: 'Deployment Pipeline for Sandbox'
 on:
+  push:
+    branches:
+      - SS-395
   workflow_dispatch:
     inputs:
       environment:
         description: 'Deploy sandbox environment'
         required: true
         default: 'sandbox'
-#   schedule:
-#     - cron: '* * * * *'
 
 
 jobs:
