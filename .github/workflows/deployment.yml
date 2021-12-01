@@ -1,31 +1,13 @@
 name: 'Deployment Pipeline for Sandbox'
 on:
+  push:
+    branches:
+      - SS-395
   workflow_dispatch:
     inputs:
-      environment:
+      dev:
+        description: 'Deploy dev environment'
         required: true
-        type: choice
-        description: Select Environment name
-        options:
-        - 
-        - alex
-        - bogdan
-        - dev
-        - joakim
-        - mxkh
-        - maxsolomatin
-        - nataliia
-        - stepan
-        - sviat
-        - tobias
-        - viktor
-      choice:
-        type: choice
-        description: Make a choice
-        options:
-        - foo
-        - bar
-        - baz
 
 jobs:
   print_text:
