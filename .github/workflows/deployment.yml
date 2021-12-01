@@ -3,12 +3,12 @@ on:
   push:
     branches:
       - SS-395
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Deploy sandbox environment'
-        required: true
-        default: 'sandbox'
+  # workflow_dispatch:
+  #   inputs:
+  #     environment:
+  #       description: 'Deploy sandbox environment'
+  #       required: true
+  #       default: 'sandbox'
 
 
 jobs:
