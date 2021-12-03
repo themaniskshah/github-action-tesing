@@ -1,14 +1,14 @@
 name: 'Deployment Pipeline for Sandbox'
-on:
-  push:
-    branches:
-      - test
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Deploy sandbox environment'
-        required: true
-        default: 'sandbox'
+on: [workflow_dispatch]
+  # push:
+  #   branches:
+  #     - test
+  # workflow_dispatch:
+  #   inputs:
+  #     environment:
+  #       description: 'Deploy dev environment'
+  #       required: true
+  #       default: 'dev'
 
 
 jobs:
