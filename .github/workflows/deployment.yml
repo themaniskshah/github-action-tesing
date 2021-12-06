@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: greet
-        run: | 
-          echo "environment is ${{ github.event.inputs.environment }}"
+        run: date
+          # echo "environment is ${{ github.event.inputs.environment }}"
           # echo "boolean is ${{ github.event.inputs.boolean }}"
           # echo "choice is ${{ github.event.inputs.choice }}"
