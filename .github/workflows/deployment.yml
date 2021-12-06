@@ -1,8 +1,7 @@
 name: 'Deployment Pipeline for Sandbox'
-on: [workflow_dispatch]
-  push:
-    branches:
-      - main
+on: [workflow_dispatch, push]
+      branches:
+        - main
 
 jobs:
   build:
