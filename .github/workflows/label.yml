@@ -2,7 +2,7 @@ name: Remove labels
 on:
   workflow_run:
     workflows:
-      - Deployment Pipeline for Sandbox
+      - Deployment Pipeline for Schedule
     types:
       - completed
 jobs:
