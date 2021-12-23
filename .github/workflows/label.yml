@@ -6,12 +6,9 @@ on:
     types:
       - completed
 jobs:
-  remove_labels:
-    # if: ${{ github.event.action == 'completed'  }}
+  on-success:
     runs-on: ubuntu-latest
-    permissions:
-      issues: write
-      pull-requests: write
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: remove labels
         uses: andymckay/labeler@5c59dabdfd4dd5bd9c6e6d255b01b9d764af4414
@@ -19,3 +16,7 @@ jobs:
           remove-labels: "needs review"
           # repo-token: ${{ secrets.TOKEN }}
 
+  on-failure:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
