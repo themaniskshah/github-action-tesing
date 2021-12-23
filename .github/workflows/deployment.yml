@@ -1,4 +1,4 @@
-name: 'Deployment Pipeline for Sandbox'
+name: 'Deployment Pipeline for Schedule'
 on:
   pull_request:
     types: [opened,synchronize,labeled,closed]
