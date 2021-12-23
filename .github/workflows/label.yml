@@ -13,15 +13,25 @@ jobs:
       - name: remove labels
         uses: andymckay/labeler@5c59dabdfd4dd5bd9c6e6d255b01b9d764af4414
         with:
-          remove-labels: "needs review"
-          # repo-token: ${{ secrets.TOKEN }}
+          remove-labels: "deploy"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Label issues
+        uses: andymckay/labeler@e6c4322d0397f3240f0e7e30a33b5c5df2d39e90
+        with:
+          add-labels: "deployed-successfully"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
 
   on-failure:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     steps:
+      - name: remove labels
+        uses: andymckay/labeler@5c59dabdfd4dd5bd9c6e6d255b01b9d764af4414
+        with:
+          remove-labels: "deploy"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Label issues
         uses: andymckay/labeler@e6c4322d0397f3240f0e7e30a33b5c5df2d39e90
         with:
-          add-labels: "triage"
-          repo-token: ${{ secrets.TOKEN }}
+          add-labels: "deployment-failed"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
