@@ -1,0 +1,20 @@
+name: Remove labels
+on:
+  workflow_run:
+    workflows:
+      - Deployment Pipeline for Sandbox
+    types:
+      - completed
+jobs:
+  remove_labels:
+    if: ${{ github.event.action != 'completed'  }}
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - name: remove labels
+        uses: andymckay/labeler@5c59dabdfd4dd5bd9c6e6d255b01b9d764af4414
+        with:
+          remove-labels: "needs review"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}

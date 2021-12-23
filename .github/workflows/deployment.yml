@@ -1,9 +1,7 @@
 name: 'Deployment Pipeline for Sandbox'
 on:
- workflow_dispatch:
- push:
-#  schedule:
-#    - cron: '*/5 * * * *'
+  pull_request:
+    types: [opened,synchronize,labeled,closed]
 
 jobs:
   build:
