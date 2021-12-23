@@ -14,4 +14,4 @@ jobs:
         run: |
           echo "environment is ${GITHUB_REF##*/}"
           echo "boolean is ${{ github.event.inputs.boolean }}"
-          # echo "choice is ${{ github.event.inputs.choice }}"
+          echo "choice is ${{ github.event.inputs.choice }}"
