@@ -7,7 +7,7 @@ on:
       - completed
 jobs:
   remove_labels:
-    if: ${{ github.event.action != 'completed'  }}
+    if: ${{ github.event.action == 'completed'  }}
     runs-on: ubuntu-latest
     permissions:
       issues: write
