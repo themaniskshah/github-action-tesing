@@ -12,6 +12,6 @@ jobs:
 
       - name: greet
         run: |
-          echo "environment is ${GITHUB_REF##*/}"
+          echo: "environment is ${GITHUB_REF##*/}"
           echo "boolean is ${{ github.event.inputs.boolean }}"
           # echo "choice is ${{ github.event.inputs.choice }}"
