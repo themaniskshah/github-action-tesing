@@ -7,7 +7,7 @@ on:
       - completed
 jobs:
   remove_labels:
-    if: ${{ github.event.action == 'completed'  }}
+    # if: ${{ github.event.action == 'completed'  }}
     runs-on: ubuntu-latest
     permissions:
       issues: write
@@ -17,6 +17,5 @@ jobs:
         uses: andymckay/labeler@5c59dabdfd4dd5bd9c6e6d255b01b9d764af4414
         with:
           remove-labels: "needs review"
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.TOKEN }}
 
-          
