@@ -32,11 +32,12 @@ jobs:
     #     github_token: ${{ github.TOKEN }}
     #     labels: deploy
         
-    - name: Label issues
-      uses: andymckay/labeler@e6c4322d0397f3240f0e7e30a33b5c5df2d39e90
+    - name: initial labeling
+      uses: andymckay/labeler@master
       with:
-        add-labels: "help wanted"
-        repo-token: ${{ secrets.TOKEN }}
+        add-labels: "bug"
+        # remove-labels: "in progress"
+
 
   on-failure:
     runs-on: ubuntu-latest
