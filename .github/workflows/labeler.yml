@@ -42,13 +42,22 @@ on:
 #   issues: [opened, edited, closed, reopened]
 #   pull_request:
 #     types: [opened, edited, closed, reopened, ready_for_review, synchronize]
-
 jobs:
-  label:
+  on-success:
     runs-on: ubuntu-latest
-    name: Label issues and pull requests
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: IvanFon/super-labeler-action@v1
-        with:
-          github-token: '${{ secrets.TOKEN }}'
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Run Labeler
+      if: success()
+      uses: crazy-max/ghaction-github-labeler@v3
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        yaml-file: .github/labels.yml
+        skip-delete: false
+        dry-run: false
+        exclude: |
+          help*
+          *issue
