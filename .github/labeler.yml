@@ -1,0 +1,17 @@
+logan:
+  - packages/logan/*
+
+main:
+  - packages/main/*
+
+eavis:
+  - packages/eavis/*
+
+shared:
+  - packages/shared/*
+
+xavier:
+  - packages/xavier/*
+
+gambit:
+  - packages/gambit/*
