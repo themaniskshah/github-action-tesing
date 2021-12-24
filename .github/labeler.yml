@@ -4,11 +4,11 @@ logan:
 main:
   - packages/main/*
 
-eavis:
-  - packages/eavis/*
+deploy-succesful:
+  - packages/deploy/*
 
-shared:
-  - packages/shared/*
+deploy:
+  - packages/deploy/*
 
 xavier:
   - packages/xavier/*
