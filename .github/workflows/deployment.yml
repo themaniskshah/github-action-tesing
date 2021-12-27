@@ -25,15 +25,15 @@ jobs:
           remove-labels: "deploy"
 
 
-  on-failure:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+  # on-failure:
+  #   runs-on: ubuntu-latest
+  #   if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
 
       - name: initial labeling after failed
-        # if: ${{ github.event.label.name == 'deploy' || github.event.pull_request.conclusion == 'failed' }}
+        if: ${{ github.event.label.name == 'deploy' || github.event.pull_request.conclusion == 'failed' }}
         uses: andymckay/labeler@master
         with:
           add-labels: "deployment-failed"
