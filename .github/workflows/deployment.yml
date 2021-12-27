@@ -5,7 +5,8 @@ on:
 
 jobs:
   build:
-    if: ${{ github.event.action == 'opened' && github.event.action == 'synchronize' || ( github.event.action == 'labeled' && github.event.label.name == 'deploy' ) }}
+    if: ${{ github.event.action == 'opened' 
+        && github.event.action == 'synchronize' || ( github.event.action == 'labeled' && github.event.label.name == 'deploy' ) }}
     name: 'Deploy Pull Request'
     runs-on: ubuntu-latest
     steps:
@@ -15,7 +16,7 @@ jobs:
         run: |
           echo "environment is ${GITHUB_REF##*/}"
           echo "boolean is ${{ github.event.inputs.boolean }}"
-          # echo "choice is on ${{ github.event.inputs.choice }}"
+          echo "choice is on ${{ github.event.inputs.choice }}"
 
 
   Cleanup:
@@ -29,4 +30,4 @@ jobs:
         run: |
           echo "environment is ${GITHUB_REF##*/}"
           echo "boolean is ${{ github.event.inputs.boolean }}"
-          # echo "choice is on ${{ github.event.inputs.choice }}"
+          echo "choice is on ${{ github.event.inputs.choice }}"
