@@ -26,13 +26,12 @@ jobs:
           help*
           *issue
 
-    - name: add labels
-      uses: actions-ecosystem/action-add-labels@v1
-      if: env.BASE_BRANCH != 'main'
+    - name: initial labeling
+      uses: andymckay/labeler@master
       with:
-        number: ${{ github.event.pull_request.number }}
-        github_token: ${{ github.token }}
-        labels: deployed-successfully
+        add-labels: "deployed-successfully"
+        remove-labels: "deploy"
+
 
 
   on-failure:
