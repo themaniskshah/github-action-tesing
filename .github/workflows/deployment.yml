@@ -15,7 +15,7 @@ jobs:
         run: |
           echo "environment is ${GITHUB_REF##*/}"
           echo "boolean is ${{ github.event.inputs.boolean }}"
-          echo "choice is on ${{ github.event.inputs.choice }}"
+          # echo "choice is on ${{ github.event.inputs.choice }}"
 
       - name: initial labeling after success
         if: ${{ github.event.label.name == 'deploy' || github.event.pull_request.conclusion == 'success' }}
