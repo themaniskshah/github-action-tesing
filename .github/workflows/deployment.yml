@@ -19,13 +19,13 @@ jobs:
 
   on-success:
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.conclusion == 'failed' }}
+    if: ${{ github.event.pull_request.conclusion == 'success' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: initial labeling after success
-        if: ${{ github.event.label.name == 'deploy' || github.event.pull_request.conclusion == 'success' }}
+        # if: ${{ github.event.label.name == 'deploy' || github.event.pull_request.conclusion == 'success' }}
         uses: andymckay/labeler@master
         with:
           add-labels: "deployed-successfully"
@@ -40,7 +40,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: initial labeling after failed
-        if: ${{ github.event.label.name == 'deploy' || github.event.pull_request.conclusion == 'failure' }}
+        # if: ${{ github.event.label.name == 'deploy' || github.event.pull_request.conclusion == 'failure' }}
         uses: andymckay/labeler@master
         with:
           add-labels: "deployment-failed"
