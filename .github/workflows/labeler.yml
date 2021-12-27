@@ -30,6 +30,7 @@ jobs:
       uses: actions-ecosystem/action-add-labels@v1
       if: env.BASE_BRANCH != 'main'
       with:
+        issue-number: ${{ github.event.issue.number }}
         github_token: ${{ github.token }}
         labels: deployed-successfully
 
