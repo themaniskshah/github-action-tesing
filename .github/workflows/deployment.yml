@@ -16,11 +16,11 @@ jobs:
         run: |
           echo "environment is ${GITHUB_REF##*/}"
           echo "boolean is ${{ github.event.inputs.boolean }}"
-          echo: "choice is on ${{ github.event.inputs.choice }}"
+          echo "choice is on ${{ github.event.inputs.choice }}"
           # echo ::set-output name=exit_code::$?
 
       - name: initial labeling after success
-        if: ${{ github.event.label.name == 'deploy' || success() && steps.greet.outcome == 'success' }}
+        if: ${{ success() && steps.greet.outcome == 'success' }}
         # if: ${{ github.event.label.name == 'deploy' || github.event.pull_request.conclusion == 'success' }}
         uses: andymckay/labeler@master
         with:
@@ -28,7 +28,7 @@ jobs:
           remove-labels: "deploy"
 
       - name: initial labeling after failed
-        if: ${{ github.event.label.name == 'deploy' || failure() && steps.greet.outcome == 'failure' }}
+        if: ${{ failure() && steps.greet.outcome == 'failure' }}
         # if: ${{ github.event.label.name == 'deploy' || steps.build.outputs.exit_code == 0 }}
         uses: andymckay/labeler@master
         with:
