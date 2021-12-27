@@ -1,12 +1,11 @@
 name: 'Deployment Pipeline for Schedule'
 on:
   pull_request:
-    types: [opened,synchronize,labeled,closed]
+    types: [opened,labeled,closed]
 
 jobs:
   build:
-    if: ${{ github.event.action == 'opened' 
-        && github.event.action == 'synchronize' || ( github.event.action == 'labeled' && github.event.label.name == 'deploy' ) }}
+    if: ${{ github.event.action == 'opened' || ( github.event.action == 'labeled' && github.event.label.name == 'deploy' ) }}
     name: 'Deploy Pull Request'
     runs-on: ubuntu-latest
     steps:
