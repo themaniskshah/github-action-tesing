@@ -26,7 +26,7 @@ jobs:
           remove-labels: "deploy"
 
       - name: initial labeling after failed
-        if: ${{ github.event.label.name == 'deploy' || github.event.pull_request.conclusion == 'failure' }}
+        if: ${{ github.event.label.name == 'deploy' || github.event.pull_request.conclusion != 'success' }}
         uses: andymckay/labeler@master
         with:
           add-labels: "deployment-failed"
