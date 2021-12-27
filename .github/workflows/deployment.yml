@@ -28,7 +28,7 @@ jobs:
           remove-labels: "deploy"
 
       - name: initial labeling after failed
-        if: steps.greet.outcome == 'failure'
+        if: failure() && steps.greet.outcome == 'failure'
         # if: ${{ github.event.label.name == 'deploy' || steps.build.outputs.exit_code == 0 }}
         uses: andymckay/labeler@master
         with:
