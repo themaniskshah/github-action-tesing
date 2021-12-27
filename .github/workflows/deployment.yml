@@ -17,6 +17,11 @@ jobs:
           echo "boolean is ${{ github.event.inputs.boolean }}"
           # echo "choice is on ${{ github.event.inputs.choice }}"
 
+      - name: initial labeling
+        uses: andymckay/labeler@master
+        with:
+          add-labels: "deployed-successfully"
+          remove-labels: "deploy"
 
   Cleanup:
     name: 'Cleanup Pull Request'
