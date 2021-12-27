@@ -15,4 +15,18 @@ jobs:
         run: |
           echo "environment is ${GITHUB_REF##*/}"
           echo "boolean is ${{ github.event.inputs.boolean }}"
-          echo "choice is on ${{ github.event.inputs.choice }}"
+          # echo "choice is on ${{ github.event.inputs.choice }}"
+
+
+  Cleanup:
+    name: 'Cleanup Pull Request'
+    runs-on: ubuntu-latest
+    if: ${{ github.event.action == 'closed' }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: greet
+        run: |
+          echo "environment is ${GITHUB_REF##*/}"
+          echo "boolean is ${{ github.event.inputs.boolean }}"
+          # echo "choice is on ${{ github.event.inputs.choice }}"
