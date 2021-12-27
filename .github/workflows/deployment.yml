@@ -15,13 +15,20 @@ jobs:
         run: |
           echo "environment is ${GITHUB_REF##*/}"
           echo "boolean is ${{ github.event.inputs.boolean }}"
-          echo: "choice is on: ${{ github.event.inputs.choice }}"
+          echo "choice is on ${{ github.event.inputs.choice }}"
 
-      - name: initial labeling
+      - name: initial labeling after success
         if: ${{ github.event.label.name == 'deploy' || github.event.pull_request.conclusion == 'success' }}
         uses: andymckay/labeler@master
         with:
           add-labels: "deployed-successfully"
+          remove-labels: "deploy"
+
+      - name: initial labeling after failed
+        if: ${{ github.event.label.name == 'deploy' || github.event.pull_request.conclusion == 'failure' }}
+        uses: andymckay/labeler@master
+        with:
+          add-labels: "deployment-failed"
           remove-labels: "deploy"
 
   Cleanup:
