@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     name: 'Deploy Pull Request'
-    if: ${{ github.event.action != 'closed' && github.event.label.name == 'deploy' }}
+    if: ${{ github.event.action != 'closed' || ( github.event.label.name == 'deploy') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,4 +15,4 @@ jobs:
         run: |
           echo "environment is ${GITHUB_REF##*/}"
           echo "boolean is ${{ github.event.inputs.boolean }}"
-          echo "choice is on ${{ github.event.inputs.choice }}"
+          # echo "choice is on ${{ github.event.inputs.choice }}"
