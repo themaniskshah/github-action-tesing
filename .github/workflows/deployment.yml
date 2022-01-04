@@ -1,7 +1,7 @@
 name: 'Deployment Pipeline for Schedule'
 on:
   pull_request:
-    types: [opened,labeled,closed]
+    # types: [opened,labeled,closed]
 
 jobs:
   build:
