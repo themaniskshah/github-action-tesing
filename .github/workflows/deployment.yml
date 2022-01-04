@@ -11,6 +11,22 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      # Wait on checks for ci.yml
+      - name: Wait for "Static checks" to succeed
+        uses: lewagon/wait-on-check-action@v1.0.0
+        with:
+          check-name: 'Test application'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 20
+
+      # # Wait on checks for ci.yml
+      # - name: Wait for "Test application" to succeed
+      #   uses: lewagon/wait-on-check-action@v1.0.0
+      #   with:
+      #     check-name: 'Test application'
+      #     repo-token: ${{ secrets.GITHUB_TOKEN }}
+      #     wait-interval: 20
+
       - name: greet
         id: greet
         run: |

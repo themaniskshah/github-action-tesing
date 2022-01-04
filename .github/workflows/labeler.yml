@@ -1,56 +1,66 @@
 name: Remove labels
 on:
-  workflow_run:
-    workflows:
-      - Deployment Pipeline for Schedule
-    types:
-      - completed
+  pull_request:
+  # workflow_run:
+  #   workflows:
+  #     - Deployment Pipeline for
+  #   types:
+  #     - completed
 
 jobs:
   on-success:
+    name: 'Test application'  
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Run Labeler
-      if: success()
-      uses: crazy-max/ghaction-github-labeler@v3
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        yaml-file: .github/labels.yml
-        skip-delete: false
-        dry-run: false
-        exclude: |
-          help*
-          *issue
+    - name: greet
+      id: greet
+      run: |
+        echo "environment is ${GITHUB_REF##*/}"
+        echo "boolean is ${{ github.event.inputs.boolean }}"
+        # echo "choice is on ${{ github.event.inputs.choice }}"
+        # echo ::set-output name=exit_code::$?
 
-    - name: initial labeling
-      uses: andymckay/labeler@master
-      with:
-        add-labels: "deployed-successfully"
-        remove-labels: "deploy"
+    # - name: Run Labeler
+    #   if: success()
+    #   uses: crazy-max/ghaction-github-labeler@v3
+    #   with:
+    #     github-token: ${{ secrets.GITHUB_TOKEN }}
+    #     yaml-file: .github/labels.yml
+    #     skip-delete: false
+    #     dry-run: false
+    #     exclude: |
+    #       help*
+    #       *issue
+
+    # - name: initial labeling
+    #   uses: andymckay/labeler@master
+    #   with:
+    #     add-labels: "deployed-successfully"
+    #     remove-labels: "deploy"
 
 
 
-  on-failure:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+  # on-failure:
+  #   runs-on: ubuntu-latest
+  #   if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
 
-      - name: remove labels
-        uses: andymckay/labeler@5c59dabdfd4dd5bd9c6e6d255b01b9d764af4414
-        with:
-          remove-labels: "deploy"
-          repo-token: ${{ secrets.TOKEN }}
+  #     - name: remove labels
+  #       uses: andymckay/labeler@5c59dabdfd4dd5bd9c6e6d255b01b9d764af4414
+  #       with:
+  #         remove-labels: "deploy"
+  #         repo-token: ${{ secrets.TOKEN }}
 
-      - name: Label issues
-        uses: andymckay/labeler@e6c4322d0397f3240f0e7e30a33b5c5df2d39e90
-        with:
-          add-labels: "deployment-failed"
-          repo-token: ${{ secrets.TOKEN }}
+  #     - name: Label issues
+  #       uses: andymckay/labeler@e6c4322d0397f3240f0e7e30a33b5c5df2d39e90
+  #       with:
+  #         add-labels: "deployment-failed"
+  #         repo-token: ${{ secrets.TOKEN }}
 
 
