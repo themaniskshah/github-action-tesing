@@ -20,6 +20,15 @@ jobs:
           repo-token: ${{ secrets.TOKEN }}
           wait-interval: 20
 
+      # Wait on checks for ci.yml
+      - name: Wait for "Static checks" to succeed
+        uses: lewagon/wait-on-check-action@v1.0.0
+        with:
+          ref: stage
+          check-name: 'test application'
+          repo-token: ${{ secrets.TOKEN }}
+          wait-interval: 20
+
       - name: greet
         id: greet
         run: |
