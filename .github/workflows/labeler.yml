@@ -22,6 +22,8 @@ jobs:
         echo "environment is ${GITHUB_REF##*/}"
         echo "environment is ${{ github.ref }}"
         echo "boolean is ${{ github.base_ref }}"
+        echo "branch is ${GITHUB_HEAD_REF}"
+        echo "branch is $BRANCH_NAME"       
         # echo "choice is on ${{ github.event.inputs.choice }}"
         # echo ::set-output name=exit_code::$?
 
