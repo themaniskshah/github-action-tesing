@@ -16,9 +16,7 @@ jobs:
         uses: lewagon/wait-on-check-action@v1.0.0
         with:
           ref: stage
-          check-name: |
-                'Test application'
-                'application'
+          check-name: 'application'
           repo-token: ${{ secrets.TOKEN }}
           wait-interval: 20
 
