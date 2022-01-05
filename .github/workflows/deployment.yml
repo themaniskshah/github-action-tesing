@@ -3,6 +3,9 @@ on:
   pull_request:
     types: [opened,synchronize,reopened,labeled,closed]
 
+env:
+  GITHUB_HEAD_REF: ${GITHUB_HEAD_REF}
+
 jobs:
   build:
     if: ${{ github.event.action != 'closed' || ( github.event.action == 'labeled' && github.event.label.name == 'deploy' ) }}
