@@ -17,7 +17,7 @@ jobs:
         with:
           ref: ${GITHUB_REF##*/}
           check-name: 'Test application'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.TOKEN }}
           wait-interval: 20
 
       - name: greet
