@@ -1,11 +1,11 @@
 name: 'Deployment Pipeline for Schedule'
 on:
   pull_request:
-    # types: [opened,labeled,closed]
+    types: [opened,reopened,labeled,closed]
 
 jobs:
   build:
-    if: ${{ github.event.action == 'opened' || ( github.event.action == 'labeled' && github.event.label.name == 'deploy' ) }}
+    if: ${{ github.event.action != 'closed' || ( github.event.action == 'labeled' && github.event.label.name == 'deploy' ) }}
     name: 'Deploy Pull Request'
     runs-on: ubuntu-latest
     steps:
@@ -15,17 +15,10 @@ jobs:
       - name: Wait for "Static checks" to succeed
         uses: lewagon/wait-on-check-action@v1.0.0
         with:
+          ref: ${{ github.ref }}
           check-name: 'Test application'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 20
-
-      # # Wait on checks for ci.yml
-      # - name: Wait for "Test application" to succeed
-      #   uses: lewagon/wait-on-check-action@v1.0.0
-      #   with:
-      #     check-name: 'Test application'
-      #     repo-token: ${{ secrets.GITHUB_TOKEN }}
-      #     wait-interval: 20
 
       - name: greet
         id: greet
