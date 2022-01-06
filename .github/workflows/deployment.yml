@@ -13,13 +13,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: nelonoel/branch-name@v1
+      - uses: tj-actions/branch-names@v4.9
 
       # Wait on checks for ci.yml
       - name: Wait for "Static checks" to succeed
         uses: lewagon/wait-on-check-action@v1.0.0
         with:
-          ref: ${BRANCH_NAME}
+          ref: "${{ steps.branch-name.outputs.current_branch }}"
           check-name: 'Test application'
           repo-token: ${{ secrets.TOKEN }}
           wait-interval: 20
