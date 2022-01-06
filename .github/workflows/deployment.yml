@@ -18,7 +18,7 @@ jobs:
       - name: Wait for "Static checks" to succeed
         uses: lewagon/wait-on-check-action@v1.0.0
         with:
-          ref: ${{ env.GITHUB_HEAD_REF }}
+          ref: $(echo ${GITHUB_HEAD_REF})"
           check-name: 'Test application'
           repo-token: ${{ secrets.TOKEN }}
           wait-interval: 20
