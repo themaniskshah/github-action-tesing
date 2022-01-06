@@ -15,10 +15,9 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      # extract branch name on pull request
-      - name: Print branch name
-        if: github.event_name == 'pull_request'
-        run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_HEAD_REF})"
+      # # extract branch name on pull request
+      # - name: Print branch name
+      #   run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_HEAD_REF})"
 
       # print branch name eggarly
       - name: Get branch name
