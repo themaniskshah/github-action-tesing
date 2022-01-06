@@ -15,14 +15,14 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      # - name: Setup NuGet
-      #   uses: NuGet/setup-nuget@v1.0.2
-      #   env:
-      #     ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+      # extract branch name on pull request
+      - name: Print branch name
+        if: github.event_name == 'pull_request'
+        run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_HEAD_REF})"
 
-      - name: Extract branch name
-        shell: bash
-        run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/})"
+      # print branch name
+      - name: Get branch name
+        run: echo 'The branch name is' $BRANCH_NAME
 
       # Wait on checks for ci.yml
       - name: Wait for "Static checks" to succeed
