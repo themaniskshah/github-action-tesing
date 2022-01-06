@@ -12,6 +12,12 @@ jobs:
     name: 'Deploy Pull Request'
     runs-on: ubuntu-latest
     steps:
+
+      - name: Setup MSBuild path
+        uses: microsoft/setup-msbuild@v1.0.0
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+
       - uses: actions/checkout@v2
       - uses: nelonoel/branch-name@v1
 
