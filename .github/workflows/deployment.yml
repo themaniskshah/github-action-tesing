@@ -19,15 +19,15 @@ jobs:
       - name: Print branch name
         run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_HEAD_REF})"
 
-      # # print branch name eggarly
-      # - name: Get branch name
-      #   run: echo 'The branch name is' $BRANCH_NAME
+      # print branch name eggarly
+      - name: Get branch name
+        run: echo 'The branch name is' $BRANCH_NAME
 
       # Wait on checks for ci.yml
       - name: Wait for "Static checks" to succeed
         uses: lewagon/wait-on-check-action@v1.0.0
         with:
-          ref: "$BRANCH_NAME"
+          ref: $(echo ${GITHUB_HEAD_REF})"
           check-name: 'Test application'
           repo-token: ${{ secrets.TOKEN }}
           wait-interval: 20
