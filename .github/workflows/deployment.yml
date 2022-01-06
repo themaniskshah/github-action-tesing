@@ -14,22 +14,21 @@ jobs:
     steps:
 
       - uses: actions/checkout@v2
-      - uses: nelonoel/branch-name@v1
 
       - name: Setup MSBuild path
         uses: microsoft/setup-msbuild@v1.0.0
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
 
-      - name: Current branch name
-        run: |
-          echo "${BRANCH_NAME}"
+      - name: Extract branch name
+        shell: bash
+        run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/})"
 
       # Wait on checks for ci.yml
       - name: Wait for "Static checks" to succeed
         uses: lewagon/wait-on-check-action@v1.0.0
         with:
-          ref: "${{ steps.branch-name.outputs.current_branch }}"
+          ref: "$BRANCH_NAME"
           check-name: 'Test application'
           repo-token: ${{ secrets.TOKEN }}
           wait-interval: 20
