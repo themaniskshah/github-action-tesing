@@ -3,6 +3,9 @@ on:
   pull_request:
     types: [opened,synchronize,reopened,labeled,closed]
 
+env:
+  NEW_VERSION: ${{ github.event.pull_request.number }}
+
 jobs:
   build:
     if: ${{ github.event.label.name == 'deploy' || github.event.action == 'opened' || github.event.action == 'synchronize' || github.event.action == 'reopened' }}
@@ -14,7 +17,7 @@ jobs:
 
       # print branch name eggarly ##
       - name: Get branch name
-        run: echo 'The branch name is' ${{ github.event.pull_request.head.sha }}
+        run: echo 'The branch name is' ${NEW_VERSION}
 
       # Wait on checks for ci.yml
       - name: Wait for "Static checks" to succeed
