@@ -46,8 +46,8 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        with:
+        #   GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        # with:
           tag_name: ${{ steps.version.outputs.TAG_NAME }}
 
       - name: Retrieve version
@@ -91,18 +91,18 @@ jobs:
           echo "boolean is ${{ github.event.inputs.boolean }}"
           # echo "choice is on ${{ github.event.inputs.choice }}"
 
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Sleep for 30 seconds
-      uses: jakejarvis/wait-action@master
-      with:
-        time: '1h'
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Sleep for 30 seconds
+  #     uses: jakejarvis/wait-action@master
+  #     with:
+  #       time: '1h'
 
-    - name: greet
-      id: greet
-      run: |
-        echo "environment is ${GITHUB_REF##*/}"
-        echo "boolean is ${{ github.event.inputs.boolean }}"
-        # echo "choice is on ${{ github.event.inputs.choice }}"
-        # echo ::set-output name=exit_code::$?
+  #   - name: greet
+  #     id: greet
+  #     run: |
+  #       echo "environment is ${GITHUB_REF##*/}"
+  #       echo "boolean is ${{ github.event.inputs.boolean }}"
+  #       # echo "choice is on ${{ github.event.inputs.choice }}"
+  #       # echo ::set-output name=exit_code::$?
