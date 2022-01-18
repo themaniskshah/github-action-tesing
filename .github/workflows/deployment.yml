@@ -72,10 +72,10 @@ jobs:
       #     git push --delete origin stage
 
       - uses: fregante/setup-git-user@v1
-      - run: git config --global user.email "mkshah987@gmail.com"
-      - run: git config --global user.name "themaniskshah"
-      - run: git commit --message 'Something cool'
-      - run: git push -f origin HEAD:main
+      # - run: git config --global user.email "mkshah987@gmail.com"
+      # - run: git config --global user.name "themaniskshah"
+      - run: git commit --message 'Testing for git'
+      - run: git push 
 
       - name: initial labeling after success
         if: ${{ success() && steps.greet.outcome == 'success' }}
