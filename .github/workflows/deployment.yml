@@ -1,31 +1,58 @@
 name: 'Deployment Pipeline for Schedule'
 on:
   pull_request:
-    types: [opened,labeled,closed]
+    types: [opened,synchronize,reopened,labeled,closed]
+
+env:
+  NEW_VERSION: ${{ github.event.pull_request.number }}
 
 jobs:
   build:
-    if: ${{ github.event.action == 'opened' || ( github.event.action == 'labeled' && github.event.label.name == 'deploy' ) }}
+    if: ${{github.event.action == 'opened' || github.event.action == 'synchronize' || github.event.action == 'reopened' || (github.event.action == 'labeled' && github.event.label.name == 'deploy')}}
     name: 'Deploy Pull Request'
     runs-on: ubuntu-latest
     steps:
+
       - uses: actions/checkout@v2
+
+      # print branch name eggarly ##
+      - name: Get branch name
+        run: echo 'The branch name is' ${NEW_VERSION}
 
       # Wait on checks for ci.yml
       - name: Wait for "Static checks" to succeed
         uses: lewagon/wait-on-check-action@v1.0.0
         with:
+          ref: ${{ github.event.pull_request.head.sha }}
           check-name: 'Test application'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.TOKEN }}
           wait-interval: 20
 
-      # # Wait on checks for ci.yml
-      # - name: Wait for "Test application" to succeed
-      #   uses: lewagon/wait-on-check-action@v1.0.0
-      #   with:
-      #     check-name: 'Test application'
-      #     repo-token: ${{ secrets.GITHUB_TOKEN }}
-      #     wait-interval: 20
+      # Wait on checks for ci.yml   ##
+      - name: Wait for "Static checks" to succeed
+        uses: lewagon/wait-on-check-action@v1.0.0
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          check-name: 'application'
+          repo-token: ${{ secrets.TOKEN }}
+          wait-interval: 20
+
+      - name: Retrieve version
+        run: |
+          echo "::set-output name=TAG_NAME::${{ github.event.pull_request.head.sha }}"
+        id: version
+
+      # - name: Create Release
+      #   id: create_release
+      #   uses: actions/create-release@v1
+      #   env:
+      #   #   GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      #   # with:
+      #     tag_name: ${{ steps.version.outputs.TAG_NAME }}
+
+      - name: Retrieve version
+        run: |
+          echo "$tag_name"
 
       - name: greet
         id: greet
@@ -34,6 +61,10 @@ jobs:
           echo "boolean is ${{ github.event.inputs.boolean }}"
           # echo "choice is on ${{ github.event.inputs.choice }}"
           # echo ::set-output name=exit_code::$?
+
+      - uses: fregante/setup-git-user@v1
+      - run: git commit --message 'Something cool'
+      - run: git push
 
       - name: initial labeling after success
         if: ${{ success() && steps.greet.outcome == 'success' }}
@@ -63,3 +94,19 @@ jobs:
           echo "environment is ${GITHUB_REF##*/}"
           echo "boolean is ${{ github.event.inputs.boolean }}"
           # echo "choice is on ${{ github.event.inputs.choice }}"
+
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Sleep for 30 seconds
+  #     uses: jakejarvis/wait-action@master
+  #     with:
+  #       time: '1h'
+
+  #   - name: greet
+  #     id: greet
+  #     run: |
+  #       echo "environment is ${GITHUB_REF##*/}"
+  #       echo "boolean is ${{ github.event.inputs.boolean }}"
+  #       # echo "choice is on ${{ github.event.inputs.choice }}"
+  #       # echo ::set-output name=exit_code::$?

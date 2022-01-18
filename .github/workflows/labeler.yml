@@ -20,21 +20,28 @@ jobs:
       id: greet
       run: |
         echo "environment is ${GITHUB_REF##*/}"
-        echo "boolean is ${{ github.event.inputs.boolean }}"
+        echo "environment is ${{ github.ref }}"
+        echo "boolean is ${{ github.base_ref }}"
+        echo "branch is ${GITHUB_HEAD_REF}"
+        echo "branch is $BRANCH_NAME"       
         # echo "choice is on ${{ github.event.inputs.choice }}"
         # echo ::set-output name=exit_code::$?
 
-    # - name: Run Labeler
-    #   if: success()
-    #   uses: crazy-max/ghaction-github-labeler@v3
-    #   with:
-    #     github-token: ${{ secrets.GITHUB_TOKEN }}
-    #     yaml-file: .github/labels.yml
-    #     skip-delete: false
-    #     dry-run: false
-    #     exclude: |
-    #       help*
-    #       *issue
+  deploy:
+    name: 'application'  
+    runs-on: ubuntu-latest
+    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: greet
+      id: greet
+      run: |
+        echo "environment is ${GITHUB_REF##*/}"
+        echo "boolean is ${{ github.event.inputs.boolean }}"
+        # echo: "choice is on ${{ github.event.inputs.choice }}"
+        # echo ::set-output name=exit_code::$?
 
     # - name: initial labeling
     #   uses: andymckay/labeler@master
