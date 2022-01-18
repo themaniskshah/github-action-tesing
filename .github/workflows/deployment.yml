@@ -20,23 +20,23 @@ jobs:
       - name: Get branch name
         run: echo 'The branch name is' ${NEW_VERSION}
 
-      # Wait on checks for ci.yml
-      - name: Wait for "Static checks" to succeed
-        uses: lewagon/wait-on-check-action@v1.0.0
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          check-name: 'Test application'
-          repo-token: ${{ secrets.TOKEN }}
-          wait-interval: 20
+      # # Wait on checks for ci.yml
+      # - name: Wait for "Static checks" to succeed
+      #   uses: lewagon/wait-on-check-action@v1.0.0
+      #   with:
+      #     ref: ${{ github.event.pull_request.head.sha }}
+      #     check-name: 'Test application'
+      #     repo-token: ${{ secrets.TOKEN }}
+      #     wait-interval: 20
 
-      # Wait on checks for ci.yml   ##
-      - name: Wait for "Static checks" to succeed
-        uses: lewagon/wait-on-check-action@v1.0.0
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          check-name: 'application'
-          repo-token: ${{ secrets.TOKEN }}
-          wait-interval: 20
+      # # Wait on checks for ci.yml   ##
+      # - name: Wait for "Static checks" to succeed
+      #   uses: lewagon/wait-on-check-action@v1.0.0
+      #   with:
+      #     ref: ${{ github.event.pull_request.head.sha }}
+      #     check-name: 'application'
+      #     repo-token: ${{ secrets.TOKEN }}
+      #     wait-interval: 20
 
       - name: Retrieve version
         run: |
