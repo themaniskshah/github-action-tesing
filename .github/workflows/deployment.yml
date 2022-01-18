@@ -77,7 +77,7 @@ jobs:
       - uses: fregante/setup-git-user@v1
       # - run: git config --global user.email "mkshah987@gmail.com"
       # - run: git config --global user.name "themaniskshah"
-      - run: git commit --message 'Testing for git'
+      - run: git add . && git commit --message 'Testing for git'
       - run: git push 
 
       - name: initial labeling after success
