@@ -70,6 +70,8 @@ jobs:
       #     git commit --allow-empty --message 'add to master branch'
       #     git push -f origin HEAD:main
       #     git push --delete origin stage
+      - name: create fail
+        run: echo "Hello This is test file" > Test.txt
 
       - uses: fregante/setup-git-user@v1
       # - run: git config --global user.email "mkshah987@gmail.com"
