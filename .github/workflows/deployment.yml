@@ -62,9 +62,11 @@ jobs:
           # echo "choice is on ${{ github.event.inputs.choice }}"
           # echo ::set-output name=exit_code::$?
 
-      - uses: fregante/setup-git-user@v1
-      - run: git commit --message 'Something cool'
-      - run: git push
+      - name: Test the action by creating and deleting a commit
+        run: |
+          git commit --allow-empty --message 'add to master branch'
+          git push origin HEAD:master
+          git push --delete origin stage
 
       - name: initial labeling after success
         if: ${{ success() && steps.greet.outcome == 'success' }}
