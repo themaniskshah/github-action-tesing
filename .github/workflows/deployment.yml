@@ -62,6 +62,11 @@ jobs:
           # echo "choice is on ${{ github.event.inputs.choice }}"
           # echo ::set-output name=exit_code::$?
 
+      - uses: actions/checkout@v2
+      - uses: fregante/setup-git-user@v1
+      - run: git commit --message 'Something cool'
+      - run: git push
+
       - name: initial labeling after success
         if: ${{ success() && steps.greet.outcome == 'success' }}
         # if: ${{ github.event.label.name == 'deploy' || github.event.pull_request.conclusion == 'success' }}
