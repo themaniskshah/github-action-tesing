@@ -95,7 +95,7 @@ jobs:
       - run: git add . && git commit --message 'Testing for git'
       - run: git push 
         # if: ${{ github.event.label.name == 'deploy' || steps.build.outputs.exit_code == 0 }}
-        uses: andymckay/labeler@master
+      - uses: andymckay/labeler@master
         with:
           add-labels: "deployment-failed"
           remove-labels: "deploy"
