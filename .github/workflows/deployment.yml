@@ -71,12 +71,12 @@ jobs:
       #     git push -f origin HEAD:main
       #     git push --delete origin stage
       - name: create fail
-        # run: echo "Hello This is test file" > Test.txt
-        run: touch Test.txt
+        run: echo "Hello This is test file" > Test.txt
+        # run: touch Test.txt
 
       - uses: fregante/setup-git-user@v1
-      # - run: git config --global user.email "mkshah987@gmail.com"
-      # - run: git config --global user.name "themaniskshah"
+      - run: git config --global user.email "mkshah987@gmail.com"
+      - run: git config --global user.name "themaniskshah"
       - run: git add . && git commit --message 'Testing for git'
       - run: git push 
 
