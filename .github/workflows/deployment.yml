@@ -62,8 +62,6 @@ jobs:
           # echo "choice is on ${{ github.event.inputs.choice }}"
           # echo ::set-output name=exit_code::$?
 
-
-      - name: git user setup
       - uses: fregante/setup-git-user@v1
       - run: git commit --message 'Something cool'
       - run: git push
