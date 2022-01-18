@@ -74,7 +74,7 @@ jobs:
         run: echo "Hello This is test 00sss654655sdsdd44sssssdd--------//////////------dddddddddddssss0 file" > Test.txt
         # run: touch Test.txt
 
-      # - uses: fregante/setup-git-user@v1
+      - uses: fregante/setup-git-user@v1
       # - run: git config user.name "$(git log -n 1 --pretty=format:%an)"
       # - run: git config user.email "$(git log -n 1 --pretty=format:%ae)"
 
