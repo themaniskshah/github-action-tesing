@@ -71,7 +71,7 @@ jobs:
       #     git push -f origin HEAD:main
       #     git push --delete origin stage
       - name: create fail
-        run: echo "Hello This is test 000 file" > Test.txt
+        run: echo "Hello This is test 00sssss0 file" > Test.txt
         # run: touch Test.txt
 
       - uses: fregante/setup-git-user@v1
