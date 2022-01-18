@@ -75,8 +75,8 @@ jobs:
         # run: touch Test.txt
 
       - uses: fregante/setup-git-user@v1
-      - run: git config --global user.email "mkshah987@gmail.com"
-      - run: git config --global user.name "themaniskshah"
+      - run: git config user.name "$(git log -n 1 --pretty=format:%an)"
+      - run: git config user.email "$(git log -n 1 --pretty=format:%ae)"
       - run: git add . && git commit --message 'Testing for git'
       - run: git push 
 
