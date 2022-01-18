@@ -42,13 +42,13 @@ jobs:
           echo "::set-output name=TAG_NAME::${{ github.event.pull_request.head.sha }}"
         id: version
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-        #   GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        # with:
-          tag_name: ${{ steps.version.outputs.TAG_NAME }}
+      # - name: Create Release
+      #   id: create_release
+      #   uses: actions/create-release@v1
+      #   env:
+      #   #   GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      #   # with:
+      #     tag_name: ${{ steps.version.outputs.TAG_NAME }}
 
       - name: Retrieve version
         run: |
@@ -62,7 +62,6 @@ jobs:
           # echo "choice is on ${{ github.event.inputs.choice }}"
           # echo ::set-output name=exit_code::$?
 
-      - uses: actions/checkout@v2
       - uses: fregante/setup-git-user@v1
       - run: git commit --message 'Something cool'
       - run: git push
