@@ -73,7 +73,7 @@ jobs:
 
       - uses: fregante/setup-git-user@v1
       - run: git commit --message 'Something cool'
-      - run: git push
+      - run: git push origin main
 
       - name: initial labeling after success
         if: ${{ success() && steps.greet.outcome == 'success' }}
