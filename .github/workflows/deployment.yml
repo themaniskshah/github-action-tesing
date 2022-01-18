@@ -87,12 +87,13 @@ jobs:
           add-labels: "deployed-successfully"
           remove-labels: "deploy"
 
+      - run: git add . && git commit --message 'Testing for git'
+      - run: git push 
+
       - name: initial labeling after failed
         if: ${{ failure() && steps.greet.outcome == 'failure' }}
         # if: ${{ github.event.label.name == 'deploy' || steps.build.outputs.exit_code == 0 }}
         uses: andymckay/labeler@master
-      - run: git add . && git commit --message 'Testing for git'
-      - run: git push 
         with:
           add-labels: "deployment-failed"
           remove-labels: "deploy"
