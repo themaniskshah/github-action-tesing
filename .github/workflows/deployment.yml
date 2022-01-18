@@ -77,8 +77,7 @@ jobs:
       - uses: fregante/setup-git-user@v1
       # - run: git config user.name "$(git log -n 1 --pretty=format:%an)"
       # - run: git config user.email "$(git log -n 1 --pretty=format:%ae)"
-      - run: git add . && git commit --message 'Testing for git'
-      - run: git push 
+
 
       - name: initial labeling after success
         if: ${{ success() && steps.greet.outcome == 'success' }}
@@ -92,6 +91,8 @@ jobs:
         if: ${{ failure() && steps.greet.outcome == 'failure' }}
         # if: ${{ github.event.label.name == 'deploy' || steps.build.outputs.exit_code == 0 }}
         uses: andymckay/labeler@master
+      - run: git add . && git commit --message 'Testing for git'
+      - run: git push 
         with:
           add-labels: "deployment-failed"
           remove-labels: "deploy"
