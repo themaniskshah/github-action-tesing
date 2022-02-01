@@ -5,8 +5,8 @@ on:
 
 jobs:
   Rebase:
-    if: ${{ github.event.label.name == 'rebase' }}
-    name: Rebase
+    if: ${{ github.event.label.name == 'rebase' || github.ref == 'refs/heads/stage' }}
+    name: Rebase From the master branch
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
@@ -14,6 +14,19 @@ jobs:
         with:
           token: ${{ secrets.TOKEN }}
           fetch-depth: 0
+
+      - name: perform Rebase
+        run: |
+          # git config --global user.email "${GITHUB_ACTOR}"
+          # git config --global user.name "${GITHUB_ACTOR}@users.noreply.github.com"
+          git rebase master
+          # # git pull
+          # # git checkout "$DEFAULT_BRANCH"
+          # # git status
+          # # git checkout "$GITHUB_HEAD_REF"
+          # # git merge "$DEFAULT_BRANCH" --no-edit
+          # git push
+          # git status
 
       - name: automatic rebase
         uses: cirrus-actions/rebase@1.5
@@ -26,33 +39,33 @@ jobs:
         with:
           labels: rebase
 
-  Merge:
-    if: ${{ github.event.label.name == 'merge' }}
-    name: Merge Main
-    runs-on: ubuntu-latest
-    steps:
-      - name: git checkout
-        uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          ref: ${{ github.event.pull_request.head.ref }}
-          fetch-depth: 0
+  # Merge:
+  #   if: ${{ github.event.label.name == 'merge' }}
+  #   name: Merge Main
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: git checkout
+  #       uses: actions/checkout@v2
+  #       with:
+  #         token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+  #         ref: ${{ github.event.pull_request.head.ref }}
+  #         fetch-depth: 0
 
-      - name: perform merge
-        run: |
-          # git config --global user.email "${GITHUB_ACTOR}"
-          # git config --global user.name "${GITHUB_ACTOR}@users.noreply.github.com"
-          # git status
-          # git pull
-          # git checkout "$DEFAULT_BRANCH"
-          # git status
-          # git checkout "$GITHUB_HEAD_REF"
-          # git merge "$DEFAULT_BRANCH" --no-edit
-          git push
-          git status
+      # - name: perform merge
+      #   run: |
+      #     # git config --global user.email "${GITHUB_ACTOR}"
+      #     # git config --global user.name "${GITHUB_ACTOR}@users.noreply.github.com"
+      #     # git status
+      #     # git pull
+      #     # git checkout "$DEFAULT_BRANCH"
+      #     # git status
+      #     # git checkout "$GITHUB_HEAD_REF"
+      #     # git merge "$DEFAULT_BRANCH" --no-edit
+      #     git push
+      #     git status
 
-      - name: remove label
-        if: always()
-        uses: actions-ecosystem/action-remove-labels@v1
-        with:
-          labels: merge
+  #     - name: remove label
+  #       if: always()
+  #       uses: actions-ecosystem/action-remove-labels@v1
+  #       with:
+  #         labels: merge
