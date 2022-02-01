@@ -1,35 +1,42 @@
-name: Rebase Pull Request
+name: 'Rebase environment'
 on:
-  pull_request:
-    types: [labeled]
+  push:
+    branches:
+      - main
 
 jobs:
-  rebase:
-    if: ${{ github.event.label.name == 'rebase' || github.ref == 'refs/heads/stage' }}
-    name: 'Rebase From the master branch'
-    runs-on: ubuntu-latest
+  Deploy:
+    name: 'Deploy Pull Request'
+    # if: ${{github.event.action == 'labeled' && github.event.label.name == 'rebase' || github.ref == 'refs/heads/SS-434'}}
+    runs-on: ubuntu-20.04
     steps:
 
-      - uses: actions/checkout@v2
+      - name: Check out in platform-api repo
+        uses: actions/checkout@v2.3.4
+        with: 
+          ref: develop
+          token: ${{ secrets.TOKEN }}
 
-      - name: perform Rebase
+      - name: perform merge
         run: |
           git config --global user.email "${GITHUB_ACTOR}"
           git config --global user.name "${GITHUB_ACTOR}@users.noreply.github.com"
-          git rebase master
+          git fetch origin main
+          git fetch origin develop
+          git checkout -b origin/develop origin/develop
+          git rebase origin/main
+          git push --force-with-lease origin origin/develop:develop
+          git add . && git commit -m "Merge with main"
+          git push -f origin develop
+        continue-on-error: true
 
-      # - name: automatic rebase
-      #   uses: cirrus-actions/rebase@1.5
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      # - name: 'Rebase from main'
+      #   run: |
+      #     git config --global user.email "${GITHUB_ACTOR}"
+      #     git config --global user.name "${GITHUB_ACTOR}@users.noreply.github.com"
+      #     git rebase origin/HEAD
 
-      # - name: remove label
-      #   if: always()
-      #   uses: actions-ecosystem/action-remove-labels@v1
-      #   with:
-      #     labels: rebase
-
-  # Merge:
+  # main:
   #   if: ${{ github.event.label.name == 'merge' }}
   #   name: Merge Main
   #   runs-on: ubuntu-latest
@@ -37,25 +44,25 @@ jobs:
   #     - name: git checkout
   #       uses: actions/checkout@v2
   #       with:
-  #         token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+  #         token: ${{ secrets.TOKEN }}
   #         ref: ${{ github.event.pull_request.head.ref }}
   #         fetch-depth: 0
 
-      # - name: perform merge
-      #   run: |
-      #     # git config --global user.email "${GITHUB_ACTOR}"
-      #     # git config --global user.name "${GITHUB_ACTOR}@users.noreply.github.com"
-      #     # git status
-      #     # git pull
-      #     # git checkout "$DEFAULT_BRANCH"
-      #     # git status
-      #     # git checkout "$GITHUB_HEAD_REF"
-      #     # git merge "$DEFAULT_BRANCH" --no-edit
-      #     git push
-      #     git status
+  #     - name: perform merge
+  #       run: |
+  #         git config --global user.email "${GITHUB_ACTOR}"
+  #         git config --global user.name "${GITHUB_ACTOR}@users.noreply.github.com"
+  #         git status
+  #         git pull
+  #         git checkout "$DEFAULT_BRANCH"
+  #         git status
+  #         git checkout "$GITHUB_HEAD_REF"
+  #         git merge "$DEFAULT_BRANCH" --no-edit
+  #         git push
+  #         git status
 
   #     - name: remove label
   #       if: always()
   #       uses: actions-ecosystem/action-remove-labels@v1
   #       with:
-  #         labels: merge
+  #         labels: merge main
