@@ -2,7 +2,7 @@ name: 'Rebase environment'
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   Deploy:
@@ -21,16 +21,16 @@ jobs:
         run: |
           git config --global user.email "${GITHUB_ACTOR}"
           git config --global user.name "${GITHUB_ACTOR}@users.noreply.github.com"
-          git fetch origin master
+          git fetch origin main
           git fetch origin develop
           git checkout -b origin/develop origin/develop
-          git rebase origin/master
+          git rebase origin/main
           git push --force-with-lease origin origin/develop:develop
-          git add . && git commit -m "Merge with Master"
+          git add . && git commit -m "Merge with main"
           git push -f origin develop
         continue-on-error: true
 
-      # - name: 'Rebase from Master'
+      # - name: 'Rebase from main'
       #   run: |
       #     git config --global user.email "${GITHUB_ACTOR}"
       #     git config --global user.name "${GITHUB_ACTOR}@users.noreply.github.com"
