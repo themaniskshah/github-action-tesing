@@ -1,6 +1,7 @@
 name: 'Deployment Pipeline for Schedule'
 on:
-  push:
+  workflow_dispatch:
+  # push:
     # pull_request:
     #   types: [opened,synchronize,reopened,labeled,closed]
 
@@ -92,8 +93,8 @@ jobs:
 
       - name: initial labeling after failed
         # if: ${{ failure() && steps.greet.outcome == 'failure' }}
-      - run: git add . && git commit --message 'Testing for git'
-      - run: git push 
+      # - run: git add . && git commit --message 'Testing for git'
+      # - run: git push 
         # if: ${{ github.event.label.name == 'deploy' || steps.build.outputs.exit_code == 0 }}
       - uses: andymckay/labeler@master
         with:
