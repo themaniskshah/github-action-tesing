@@ -4,16 +4,13 @@ on:
     types: [labeled]
 
 jobs:
-  Rebase:
+  rebase:
     if: ${{ github.event.label.name == 'rebase' || github.ref == 'refs/heads/stage' }}
     name: Rebase From the master branch
     runs-on: ubuntu-latest
     steps:
-      - name: git checkout
-        uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.TOKEN }}
-          # fetch-depth: 0
+
+      - uses: actions/checkout@v2
 
       - name: perform Rebase
         run: |
