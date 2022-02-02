@@ -1,16 +1,9 @@
 name: 'Deployment Pipeline for Schedule'
 on:
-  # workflow_dispatch:
   push:
-  # pull_request:
-    #   types: [opened,synchronize,reopened,labeled,closed]
-
-env:
-  NEW_VERSION: ${{ github.event.pull_request.number }}
 
 jobs:
   build:
-    # if: ${{github.event.action == 'opened' || github.event.action == 'synchronize' || github.event.action == 'reopened' || (github.event.action == 'labeled' && github.event.label.name == 'deploy')}}
     name: 'Deploy Pull Request'
     runs-on: ubuntu-latest
     steps:
@@ -21,111 +14,92 @@ jobs:
       - name: Get branch name
         run: echo 'The branch name is' ${GITHUB_REF##*/}
 
-      # # Wait on checks for ci.yml
-      # - name: Wait for "Static checks" to succeed
-      #   uses: lewagon/wait-on-check-action@v1.0.0
-      #   with:
-      #     ref: ${{ github.event.pull_request.head.sha }}
-      #     check-name: 'Test application'
-      #     repo-token: ${{ secrets.TOKEN }}
-      #     wait-interval: 20
-
-      # # Wait on checks for ci.yml   ##
-      # - name: Wait for "Static checks" to succeed
-      #   uses: lewagon/wait-on-check-action@v1.0.0
-      #   with:
-      #     ref: ${{ github.event.pull_request.head.sha }}
-      #     check-name: 'application'
-      #     repo-token: ${{ secrets.TOKEN }}
-      #     wait-interval: 20
-
       - name: Retrieve version
         run: |
           echo "::set-output name=TAG_NAME::${{ github.event.pull_request.head.sha }}"
-        id: version
 
-      # - name: Create Release
-      #   id: create_release
-      #   uses: actions/create-release@v1
-      #   env:
-      #   #   GITHUB_TOKEN: ${{ secrets.TOKEN }}
-      #   # with:
-      #     tag_name: ${{ steps.version.outputs.TAG_NAME }}
+  #     # - name: Create Release
+  #     #   id: create_release
+  #     #   uses: actions/create-release@v1
+  #     #   env:
+  #     #   #   GITHUB_TOKEN: ${{ secrets.TOKEN }}
+  #     #   # with:
+  #     #     tag_name: ${{ steps.version.outputs.TAG_NAME }}
 
-      - name: Retrieve version
-        run: |
-          echo "$tag_name"
+  #     - name: Retrieve version
+  #       run: |
+  #         echo "$tag_name"
 
-      - name: greet
-        id: greet
-        run: |
-          echo "environment is ${GITHUB_REF##*/}"
-          echo "boolean is ${{ github.event.inputs.boolean }}"
-          # echo "choice is on ${{ github.event.inputs.choice }}"
-          # echo ::set-output name=exit_code::$?
+  #     - name: greet
+  #       id: greet
+  #       run: |
+  #         echo "environment is ${GITHUB_REF##*/}"
+  #         echo "boolean is ${{ github.event.inputs.boolean }}"
+  #         # echo "choice is on ${{ github.event.inputs.choice }}"
+  #         # echo ::set-output name=exit_code::$?
 
-      # - name: Test the action by creating and deleting a commit
-      #   run: |
-      #     git config --global user.email "mkshah987@gmail.com"
-      #     git config --global user.name "themaniskshah"
-      #     git commit --allow-empty --message 'add to master branch'
-      #     git push -f origin HEAD:main
-      #     git push --delete origin stage
-      - name: create fail
-        run: echo "Hello This is test 00sss654655sdsdd44sssssdd--------//////////------dddddddddddssss0 file" > Test.txt
-        # run: touch Test.txt
+  #     # - name: Test the action by creating and deleting a commit
+  #     #   run: |
+  #     #     git config --global user.email "mkshah987@gmail.com"
+  #     #     git config --global user.name "themaniskshah"
+  #     #     git commit --allow-empty --message 'add to master branch'
+  #     #     git push -f origin HEAD:main
+  #     #     git push --delete origin stage
+  #     - name: create fail
+  #       run: echo "Hello This is test 00sss654655sdsdd44sssssdd--------//////////------dddddddddddssss0 file" > Test.txt
+  #       # run: touch Test.txt
 
-      - uses: fregante/setup-git-user@v1
-      # - run: git config user.name "$(git log -n 1 --pretty=format:%an)"
-      # - run: git config user.email "$(git log -n 1 --pretty=format:%ae)"
+  #     - uses: fregante/setup-git-user@v1
+  #     # - run: git config user.name "$(git log -n 1 --pretty=format:%an)"
+  #     # - run: git config user.email "$(git log -n 1 --pretty=format:%ae)"
 
 
-      - name: initial labeling after success
-        if: ${{ success() && steps.greet.outcome == 'success' }}
-        # if: ${{ github.event.label.name == 'deploy' || github.event.pull_request.conclusion == 'success' }}
-        uses: andymckay/labeler@master
-        with:
-          add-labels: "deployed-successfully"
-          remove-labels: "deploy"
+  #     - name: initial labeling after success
+  #       if: ${{ success() && steps.greet.outcome == 'success' }}
+  #       # if: ${{ github.event.label.name == 'deploy' || github.event.pull_request.conclusion == 'success' }}
+  #       uses: andymckay/labeler@master
+  #       with:
+  #         add-labels: "deployed-successfully"
+  #         remove-labels: "deploy"
 
-      - run: git add . && git commit --message 'Testing for git'
-      - run: git push 
+  #     - run: git add . && git commit --message 'Testing for git'
+  #     - run: git push 
 
-      - name: initial labeling after failed
-        # if: ${{ failure() && steps.greet.outcome == 'failure' }}
-      # - run: git add . && git commit --message 'Testing for git'
-      # - run: git push 
-        # if: ${{ github.event.label.name == 'deploy' || steps.build.outputs.exit_code == 0 }}
-      - uses: andymckay/labeler@master
-        with:
-          add-labels: "deployment-failed"
-          remove-labels: "deploy"
+  #     - name: initial labeling after failed
+  #       # if: ${{ failure() && steps.greet.outcome == 'failure' }}
+  #     # - run: git add . && git commit --message 'Testing for git'
+  #     # - run: git push 
+  #       # if: ${{ github.event.label.name == 'deploy' || steps.build.outputs.exit_code == 0 }}
+  #     - uses: andymckay/labeler@master
+  #       with:
+  #         add-labels: "deployment-failed"
+  #         remove-labels: "deploy"
 
-  Cleanup:
-    name: 'Cleanup Pull Request'
-    runs-on: ubuntu-latest
-    if: ${{ github.event.action == 'closed' }}
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: greet
-        run: |
-          echo "environment is ${GITHUB_REF##*/}"
-          echo "boolean is ${{ github.event.inputs.boolean }}"
-          # echo "choice is on ${{ github.event.inputs.choice }}"
-
-  # deploy:
+  # Cleanup:
+  #   name: 'Cleanup Pull Request'
   #   runs-on: ubuntu-latest
+  #   if: ${{ github.event.action == 'closed' }}
   #   steps:
-  #   - name: Sleep for 30 seconds
-  #     uses: jakejarvis/wait-action@master
-  #     with:
-  #       time: '1h'
+  #     - uses: actions/checkout@v2
 
-  #   - name: greet
-  #     id: greet
-  #     run: |
-  #       echo "environment is ${GITHUB_REF##*/}"
-  #       echo "boolean is ${{ github.event.inputs.boolean }}"
-  #       # echo "choice is on ${{ github.event.inputs.choice }}"
-  #       # echo ::set-output name=exit_code::$?
+  #     - name: greet
+  #       run: |
+  #         echo "environment is ${GITHUB_REF##*/}"
+  #         echo "boolean is ${{ github.event.inputs.boolean }}"
+  #         # echo "choice is on ${{ github.event.inputs.choice }}"
+
+  # # deploy:
+  # #   runs-on: ubuntu-latest
+  # #   steps:
+  # #   - name: Sleep for 30 seconds
+  # #     uses: jakejarvis/wait-action@master
+  # #     with:
+  # #       time: '1h'
+
+  # #   - name: greet
+  # #     id: greet
+  # #     run: |
+  # #       echo "environment is ${GITHUB_REF##*/}"
+  # #       echo "boolean is ${{ github.event.inputs.boolean }}"
+  # #       # echo "choice is on ${{ github.event.inputs.choice }}"
+  # #       # echo ::set-output name=exit_code::$?
