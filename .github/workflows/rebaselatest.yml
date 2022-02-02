@@ -24,7 +24,7 @@ jobs:
 
       - name: Fetch and pull latest changes from main
         run: |
-          git checkout origin/main && git fetch -a && git pull origin main
+          git fetch -a && git checkout origin/main && git pull origin main
 
       - name: Fetch and pull latest changes from develop
         run: |
