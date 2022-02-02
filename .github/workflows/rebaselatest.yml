@@ -1,0 +1,41 @@
+name: 'Auto-rebase develop branch from main'
+on:
+  push:
+    # branches:
+    #   - main
+
+jobs:
+  Rebase:
+    name: 'Auto-rebase develop branch on push into main'
+    runs-on: ubuntu-20.04
+    steps:
+
+      - name: Check out in api platform repo
+        uses: actions/checkout@v2.3.4
+      #   with: 
+      #     ref: develop
+      #     token: ${{ secrets.TOKEN }}
+
+      - name: Setup git user email and name
+        run: |
+          git config --global user.email "${GITHUB_ACTOR}"
+          git config --global user.name "${GITHUB_ACTOR}@users.noreply.github.com"
+        continue-on-error: true
+
+      - name: Fetch and pull latest changes from main
+        run: |
+          git fetch -a && git checkout main && git pull origin main
+
+      - name: Fetch and pull latest changes from develop
+        run: |
+          git fetch -a && git checkout develop && git pull origin develop
+
+      - name: Perform rebase
+        run: |
+          git rebase main
+        continue-on-error: false
+
+      - name: Force push changes to develop
+        run: |
+          git push origin develop -f
+        continue-on-error: false
