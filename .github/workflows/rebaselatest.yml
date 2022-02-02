@@ -28,7 +28,7 @@ jobs:
 
       - name: Fetch and pull latest changes from develop
         run: |
-          git fetch -a && git checkout origin develop && git pull origin develop
+          git fetch -a && git checkout develop && git pull origin develop
 
       - name: Perform rebase
         run: |
