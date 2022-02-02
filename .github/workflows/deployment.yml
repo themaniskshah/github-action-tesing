@@ -1,8 +1,8 @@
 name: 'Deployment Pipeline for Schedule'
 on:
-  workflow_dispatch:
-  # push:
-    # pull_request:
+  # workflow_dispatch:
+  push:
+  # pull_request:
     #   types: [opened,synchronize,reopened,labeled,closed]
 
 env:
@@ -19,7 +19,7 @@ jobs:
 
       # print branch name eggarly ##
       - name: Get branch name
-        run: echo 'The branch name is' ${NEW_VERSION}
+        run: echo 'The branch name is' ${GITHUB_REF##*/}
 
       # # Wait on checks for ci.yml
       # - name: Wait for "Static checks" to succeed
