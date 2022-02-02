@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
 
-      - name: Check out in api platform repo
-        uses: actions/checkout@v2.3.4
-        with: 
-          ref: develop
-          token: ${{ secrets.TOKEN }}
+      # - name: Check out in api platform repo
+      #   uses: actions/checkout@v2.3.4
+      #   with: 
+      #     ref: develop
+      #     token: ${{ secrets.TOKEN }}
 
       - name: Setup git user email and name
         run: |
