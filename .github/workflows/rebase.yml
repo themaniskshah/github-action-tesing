@@ -28,7 +28,7 @@ jobs:
           git push --force-with-lease origin origin/develop:develop
           git add . && git commit -m "Merge with main"
           git push -f origin develop
-        continue-on-error: true
+        # continue-on-error: true
 
       # - name: 'Rebase from main'
       #   run: |
