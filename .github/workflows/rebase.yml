@@ -24,7 +24,14 @@ jobs:
           git fetch origin main
           git fetch origin develop
           git checkout -b origin/develop origin/develop
-          git rebase origin/main
+
+      - name: automatic rebase
+        uses: cirrus-actions/rebase@1.5
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+
+      - name: perform merge
+        run: |
           git push --force-with-lease origin origin/develop:develop
           git add . && git commit -m "Merge with main"
           git push -f origin develop
