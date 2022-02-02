@@ -13,9 +13,9 @@ jobs:
 
       - name: Check out in platform-api repo
         uses: actions/checkout@v2.3.4
-        with: 
-          ref: develop
-          token: ${{ secrets.TOKEN }}
+        # with: 
+        #   ref: develop
+        #   token: ${{ secrets.TOKEN }}
 
       - name: perform merge
         run: |
@@ -26,7 +26,7 @@ jobs:
           git checkout -b origin/develop origin/develop
           git rebase origin/main
           git push --force-with-lease origin origin/develop:develop
-          git add . && git commit -m "Merge with main"
+          # git add . && git commit -m "Merge with main"
           git push -f origin develop
         continue-on-error: true
 
