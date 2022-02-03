@@ -23,11 +23,6 @@ jobs:
           git config --global user.name "${GITHUB_ACTOR}@users.noreply.github.com"
         continue-on-error: false
 
-      - name: Fetch all
-        run: |
-          git fetch -a
-        continue-on-error: false
-
       - name: Checkout to master
         run: |
           git checkout master
@@ -37,16 +32,6 @@ jobs:
         run: |
           git pull origin master
           git log --graph --pretty=format:%s
-        continue-on-error: false
-
-      - name: Checkout to ref
-        run: |
-          git checkout ${GITHUB_REF_NAME}
-        continue-on-error: false
-
-      - name: Rebase ref from develop
-        run: |
-          git rebase develop
         continue-on-error: false
 
       - name: Checkout to develop
@@ -59,13 +44,13 @@ jobs:
           git pull origin develop
         continue-on-error: false
 
-      - name: Perform ref merge to develop
+      - name: Perform rebase
         run: |
-          git merge ${GITHUB_REF_NAME}
+          git rebase master
         continue-on-error: false
 
-      - name: Push changes to develop
+      - name: Force push changes to develop
         run: |
-          git push origin develop
+          git push origin develop -f
           git log --graph --pretty=format:%s
         continue-on-error: false
