@@ -2,7 +2,7 @@ name: 'Perform Merge'
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   Rebase:
