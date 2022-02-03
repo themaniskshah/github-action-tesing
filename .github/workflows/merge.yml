@@ -1,4 +1,4 @@
-name: 'Auto-rebase develop branch from master'
+name: 'Perform Merge'
 on:
   push:
     branches:
