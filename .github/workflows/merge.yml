@@ -1,0 +1,56 @@
+name: 'Auto-rebase develop branch from master'
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  Rebase:
+    name: 'Auto-rebase develop branch on push into master'
+    runs-on: ubuntu-20.04
+    steps:
+
+      - name: Check out in Api Platform repo
+        uses: actions/checkout@v2.3.4
+        with:
+          fetch-depth: 0
+          ref: develop
+          token: ${{ secrets.TOKEN }}
+
+      - name: Setup git user email and name
+        run: |
+          git config --global user.email "${GITHUB_ACTOR}"
+          git config --global user.name "${GITHUB_ACTOR}@users.noreply.github.com"
+        continue-on-error: false
+
+      - name: Checkout to master
+        run: |
+          git checkout master
+        continue-on-error: false
+
+      - name: Pull latest changes from master
+        run: |
+          git pull origin master
+          git log --graph --pretty=format:%s
+        continue-on-error: false
+
+      - name: Checkout to develop
+        run: |
+          git checkout develop
+        continue-on-error: false
+
+      - name: Make sure develop has latest changes
+        run: |
+          git pull origin develop
+        continue-on-error: false
+
+      - name: Perform rebase
+        run: |
+          git rebase master
+        continue-on-error: false
+
+      - name: Force push changes to develop
+        run: |
+          git push origin develop -f
+          git log --graph --pretty=format:%s
+        continue-on-error: false

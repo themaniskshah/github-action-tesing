@@ -1,16 +1,10 @@
 name: 'Deployment Pipeline for Schedule'
 on:
   workflow_dispatch:
-  # push:
-    # pull_request:
-    #   types: [opened,synchronize,reopened,labeled,closed]
-
-env:
-  NEW_VERSION: ${{ github.event.pull_request.number }}
+    # push:
 
 jobs:
   build:
-    # if: ${{github.event.action == 'opened' || github.event.action == 'synchronize' || github.event.action == 'reopened' || (github.event.action == 'labeled' && github.event.label.name == 'deploy')}}
     name: 'Deploy Pull Request'
     runs-on: ubuntu-latest
     steps:
@@ -19,30 +13,16 @@ jobs:
 
       # print branch name eggarly ##
       - name: Get branch name
-        run: echo 'The branch name is' ${NEW_VERSION}
+        run: echo 'The branch name is' ${GITHUB_REF##*/}
 
-      # # Wait on checks for ci.yml
-      # - name: Wait for "Static checks" to succeed
-      #   uses: lewagon/wait-on-check-action@v1.0.0
-      #   with:
-      #     ref: ${{ github.event.pull_request.head.sha }}
-      #     check-name: 'Test application'
-      #     repo-token: ${{ secrets.TOKEN }}
-      #     wait-interval: 20
-
-      # # Wait on checks for ci.yml   ##
-      # - name: Wait for "Static checks" to succeed
-      #   uses: lewagon/wait-on-check-action@v1.0.0
-      #   with:
-      #     ref: ${{ github.event.pull_request.head.sha }}
-      #     check-name: 'application'
-      #     repo-token: ${{ secrets.TOKEN }}
-      #     wait-interval: 20
+      # print branch name eggarly ##
+      - name: Get branch name
+        run: echo 'The branch name is' ${GITHUB_REF_NAME}
+        
 
       - name: Retrieve version
         run: |
           echo "::set-output name=TAG_NAME::${{ github.event.pull_request.head.sha }}"
-        id: version
 
       # - name: Create Release
       #   id: create_release
