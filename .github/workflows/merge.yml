@@ -6,7 +6,7 @@ on:
 
 jobs:
   Rebase:
-    name: 'Auto-rebase develop branch on push into master'
+    name: 'Auto-rebase develop branch on push into main'
     runs-on: ubuntu-20.04
     steps:
 
@@ -23,14 +23,14 @@ jobs:
           git config --global user.name "${GITHUB_ACTOR}@users.noreply.github.com"
         continue-on-error: false
 
-      - name: Checkout to master
+      - name: Checkout to main
         run: |
-          git checkout master
+          git checkout main
         continue-on-error: false
 
-      - name: Pull latest changes from master
+      - name: Pull latest changes from main
         run: |
-          git pull origin master
+          git pull origin main
           git log --graph --pretty=format:%s
         continue-on-error: false
 
@@ -46,7 +46,7 @@ jobs:
 
       - name: Perform rebase
         run: |
-          git rebase master
+          git rebase main
         continue-on-error: false
 
       - name: Force push changes to develop
