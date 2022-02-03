@@ -1,6 +1,7 @@
 name: 'Auto-rebase develop branch from main'
 on:
-  push:
+  workflow_dispatch:
+  # push:
     # branches:
     #   - main
 
