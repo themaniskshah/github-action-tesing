@@ -12,29 +12,29 @@ jobs:
 
 
       # print branch name eggarly ##
-      # - name: Get branch name
-      #   run: echo 'The branch name is' ${GITHUB_REF##*/}
+      - name: Get branch name
+        run: echo 'The branch name is' ${GITHUB_REF##*/}
 
-      # # print branch name eggarly ##
-      # - name: Get branch name
-      #   run: echo 'The branch name is' ${GITHUB_REF_NAME}
+      # print branch name eggarly ##
+      - name: Get branch name
+        run: echo 'The branch name is' ${GITHUB_REF_NAME}
         
 
-      # - name: Retrieve version
-      #   run: |
-      #     echo "::set-output name=TAG_NAME::${{ github.event.pull_request.head.sha }}"
+      - name: Retrieve version
+        run: |
+          echo "::set-output name=TAG_NAME::${{ github.event.pull_request.head.sha }}"
 
-      # - name: Create Release
-      #   id: create_release
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.TOKEN }}
-      #   with:
-      #     tag_name: ${{ steps.version.outputs.TAG_NAME }}
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          tag_name: ${{ steps.version.outputs.TAG_NAME }}
 
-      - name: greet
+      - name: Check for retry steps
         uses: nick-fields/retry@v2
-        id: greet
+        # id: greet
         run: |
           echo "environment is ${GITHUB_REF##*/}"
           echo "boolean is ${{ github.event.inputs.boolean }}"
