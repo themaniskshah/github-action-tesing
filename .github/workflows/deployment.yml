@@ -39,7 +39,7 @@ jobs:
           echo "environment is ${GITHUB_REF##*/}"
           echo "boolean is ${{ github.event.inputs.boolean }}"
           echo "choice is on ${{ github.event.inputs.choice }}"
-          echo ::set-output name=exit_code::$?
+          # echo ::set-output name=exit_code::$?
         with:
           timeout_seconds: 15
           max_attempts: 3
