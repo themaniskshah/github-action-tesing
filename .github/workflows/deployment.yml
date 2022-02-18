@@ -33,10 +33,10 @@ jobs:
       - name: Check for retry steps
         uses: nick-fields/retry@v2
         # id: greet
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: npm run some-typically-slow-script
+        # with:
+        #   timeout_minutes: 10
+        #   max_attempts: 3
+        #   command: npm run some-typically-slow-script
         run: |
           echo "environment is ${GITHUB_REF##*/}"
           echo "boolean is ${{ github.event.inputs.boolean }}"
