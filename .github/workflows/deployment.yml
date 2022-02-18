@@ -37,7 +37,7 @@ jobs:
           timeout_seconds: 15
           max_attempts: 3
           retry_on: error
-          run: |
+          command: |
             echo "environment is ${GITHUB_REF##*/}"
             echo "boolean is ${{ github.event.inputs.boolean }}"
             echo "choice is on :${{ github.event.inputs.choice }}"
