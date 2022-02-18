@@ -32,22 +32,22 @@ jobs:
       #     tag_name: ${{ steps.version.outputs.TAG_NAME }}
 
       - name: Check for retry steps
-        # with:
-        #   timeout_minutes: 10
-        #   max_attempts: 3
-        #   command: npm run some-typically-slow-script
+        with:
+          timeout_seconds: 15
+          max_attempts: 3
+          retry_on: error
         run: |
           echo "environment is ${GITHUB_REF##*/}"
           echo "boolean is ${{ github.event.inputs.boolean }}"
           echo "choice is on ${{ github.event.inputs.choice }}"
           # echo ::set-output name=exit_code::$?
 
-      - uses: nick-fields/retry@v2
-        with:
-          timeout_seconds: 15
-          max_attempts: 3
-          retry_on: error
-          command: npm run some-typically-fast-script
+      # - uses: nick-fields/retry@v2
+      #   with:
+      #     timeout_seconds: 15
+      #     max_attempts: 3
+      #     retry_on: error
+      #     command: npm run some-typically-fast-script
 
 
   #     # - name: Test the action by creating and deleting a commit
