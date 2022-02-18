@@ -12,17 +12,17 @@ jobs:
 
 
       # print branch name eggarly ##
-      - name: Get branch name
-        run: echo 'The branch name is' ${GITHUB_REF##*/}
+      # - name: Get branch name
+      #   run: echo 'The branch name is' ${GITHUB_REF##*/}
 
-      # print branch name eggarly ##
-      - name: Get branch name
-        run: echo 'The branch name is' ${GITHUB_REF_NAME}
+      # # print branch name eggarly ##
+      # - name: Get branch name
+      #   run: echo 'The branch name is' ${GITHUB_REF_NAME}
         
 
-      - name: Retrieve version
-        run: |
-          echo "::set-output name=TAG_NAME::${{ github.event.pull_request.head.sha }}"
+      # - name: Retrieve version
+      #   run: |
+      #     echo "::set-output name=TAG_NAME::${{ github.event.pull_request.head.sha }}"
 
       # - name: Create Release
       #   id: create_release
