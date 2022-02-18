@@ -31,8 +31,7 @@ jobs:
           tag_name: ${{ steps.version.outputs.TAG_NAME }}
 
       - name: Check for retry steps
-        uses: nick-fields/retry@v2
-        # id: greet
+        # uses: nick-fields/retry@v2
         # with:
         #   timeout_minutes: 10
         #   max_attempts: 3
