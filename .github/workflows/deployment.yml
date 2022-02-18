@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: nick-fields/retry@v2
+
 
       # print branch name eggarly ##
       - name: Get branch name
@@ -24,29 +24,31 @@ jobs:
         run: |
           echo "::set-output name=TAG_NAME::${{ github.event.pull_request.head.sha }}"
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-        #   GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        # with:
-          tag_name: ${{ steps.version.outputs.TAG_NAME }}
+      # - name: Create Release
+      #   id: create_release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      #   with:
+      #     tag_name: ${{ steps.version.outputs.TAG_NAME }}
+
+
+      - name: Retrieve version
+        run: |
+          echo "$tag_name"
+
+      - name: greet
+      - uses: nick-fields/retry@v2
+        id: greet
+        run: |
+          echo "environment is ${GITHUB_REF##*/}"
+          echo "boolean is ${{ github.event.inputs.boolean }}"
+          echo "choice is on ${{ github.event.inputs.choice }}"
+          echo ::set-output name=exit_code::$?
+        with:
           timeout_seconds: 15
           max_attempts: 3
-          retry_on: error
-          command: npm run some-typically-fast-script
-
-  #     - name: Retrieve version
-  #       run: |
-  #         echo "$tag_name"
-
-  #     - name: greet
-  #       id: greet
-  #       run: |
-  #         echo "environment is ${GITHUB_REF##*/}"
-  #         echo "boolean is ${{ github.event.inputs.boolean }}"
-  #         # echo "choice is on ${{ github.event.inputs.choice }}"
-  #         # echo ::set-output name=exit_code::$?
+          continue_on_error: true
 
   #     # - name: Test the action by creating and deleting a commit
   #     #   run: |
