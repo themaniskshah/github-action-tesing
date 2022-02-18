@@ -41,10 +41,9 @@ jobs:
           echo "choice is on ${{ github.event.inputs.choice }}"
           # echo ::set-output name=exit_code::$?
         with:
-          timeout_seconds: 15
+          timeout_minutes: 10
           max_attempts: 3
-          continue_on_error: true
-          command: echo "::workflow-command parameter1={data},parameter2={data}::{command value}"
+          command: npm run some-typically-slow-script
 
   #     # - name: Test the action by creating and deleting a commit
   #     #   run: |
