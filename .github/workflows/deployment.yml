@@ -32,13 +32,8 @@ jobs:
       #   with:
       #     tag_name: ${{ steps.version.outputs.TAG_NAME }}
 
-
-      - name: Retrieve version
-        run: |
-          echo "$tag_name"
-
       - name: greet
-      - uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v2
         id: greet
         run: |
           echo "environment is ${GITHUB_REF##*/}"
