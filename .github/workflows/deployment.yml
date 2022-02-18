@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: nick-invision/retry@v2
+      # - uses: nick-invision/retry@v2
 
       # print branch name eggarly ##
       - name: Get branch name
@@ -31,10 +31,7 @@ jobs:
         #   GITHUB_TOKEN: ${{ secrets.TOKEN }}
         # with:
           tag_name: ${{ steps.version.outputs.TAG_NAME }}
-        with:
-          timeout_seconds: 30
-          max_attempts: 3
-          command: bundle exec rake spec    
+          max_attempts: 2
 
   #     - name: Retrieve version
   #       run: |
