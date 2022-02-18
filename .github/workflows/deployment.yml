@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: nick-fields/retry@v2
 
       - name: Get branch name
         run: echo 'The branch name is' ${GITHUB_REF##*/}
@@ -31,7 +32,6 @@ jobs:
           tag_name: ${{ steps.version.outputs.TAG_NAME }}
 
       - name: Check for retry steps
-        uses: nick-fields/retry@v2
         # with:
         #   timeout_minutes: 10
         #   max_attempts: 3
