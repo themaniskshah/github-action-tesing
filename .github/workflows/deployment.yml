@@ -29,6 +29,9 @@ jobs:
             echo "GITHUB_WORKSPACE: ${GITHUB_WORKSPACE}"
             echo "GITHUB_SHA: ${GITHUB_SHA}"
             echo "GITHUB_REF: ${GITHUB_REF}"
+            echo "GITHUB_RUN_ID: ${GITHUB_RUN_ID}"
+            echo "GITHUB_RUN_NUMBER: ${GITHUB_RUN_NUMBER}"
+            echo "GITHUB_ACTION: ${GITHUB_ACTION}"
 
       # - name: Retrieve version
       #   run: |
