@@ -18,10 +18,21 @@ jobs:
       - name: Get branch name
         run: echo 'The branch name is' ${GITHUB_REF_NAME}
         
-
-      - name: Retrieve version
+      - name: echo-default-env-variables
         run: |
-          echo "::set-output name=TAG_NAME::${{ github.event.pull_request.head.sha }}"
+            echo "Home: ${HOME}"
+            echo "GITHUB_WORKFLOW: ${GITHUB_WORKFLOW}"
+            echo "GITHUB_ACTIONS: ${GITHUB_ACTIONS}"
+            echo "GITHUB_ACTOR: ${GITHUB_ACTOR}"
+            echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}"
+            echo "GITHUB_EVENT_NAME: ${GITHUB_EVENT_NAME}"
+            echo "GITHUB_WORKSPACE: ${GITHUB_WORKSPACE}"
+            echo "GITHUB_SHA: ${GITHUB_SHA}"
+            echo "GITHUB_REF: ${GITHUB_REF}"
+
+      # - name: Retrieve version
+      #   run: |
+      #     echo "::set-output name=TAG_NAME::${{ github.event.pull_request.head.sha }}"
 
       # - name: Create Release
       #   id: create_release
@@ -31,17 +42,17 @@ jobs:
       #   with:
       #     tag_name: ${{ steps.version.outputs.TAG_NAME }}
 
-      - name: Check for retry steps
-        uses: nick-fields/retry@v2
-        with:
-          timeout_seconds: 15
-          max_attempts: 6
-          retry_on: error
-          command: |
-            echo "environment is ${GITHUB_REF##*/}"
-            echo "boolean is ${{ github.event.inputs.boolean }}"
-            echo "choice is on :${{ github.event.inputs.choice }}"
-            echo "$ ::set-output name=exit_code::$?
+      # - name: Check for retry steps
+      #   uses: nick-fields/retry@v2
+      #   with:
+      #     timeout_seconds: 15
+      #     max_attempts: 6
+      #     retry_on: error
+      #     command: |
+      #       echo "environment is ${GITHUB_REF##*/}"
+      #       echo "boolean is ${{ github.event.inputs.boolean }}"
+      #       echo "choice is on :${{ github.event.inputs.choice }}"
+      #       echo "$ ::set-output name=exit_code::$?
 
       # - uses: nick-fields/retry@v2
       #   with:
