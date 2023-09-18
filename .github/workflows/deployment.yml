@@ -1,9 +1,12 @@
 name: 'Deployment Pipeline for Schedule'
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - master
+  on:
+    workflow_dispatch:
+      inputs:
+        target-branch:
+          description: 'Target branch for deployment'
+          required: true
+          default: 'master'
 
 
 jobs:
