@@ -11,6 +11,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main'
     steps:
     - name: Check if the trigger branch is 'master'
       id: check_branch
@@ -25,7 +26,7 @@ jobs:
         echo "Deploying to production..."
 
   second:
-    if: steps.check_branch.outputs.target-branch == 'master'
+    if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main'
     steps:
     - name: Check if the trigger branch is 'master'
       id: check_branch
