@@ -1,47 +1,26 @@
-name: 'Deployment Pipeline for Schedule'
+name: Manual Deployment to Master
+
 on:
   workflow_dispatch:
     inputs:
       target-branch:
         description: 'Target branch for deployment'
         required: true
-        default: 'master'
-
+        default: 'main'
 
 jobs:
-  build:
-    name: 'Deploy Pull Request'
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      # print branch name eggarly ##
-      - name: Get branch name
-        run: echo 'The branch name is' ${GITHUB_REF##*/}
-        
-      - name: Retrieve version
-        run: |
-          echo "::set-output name=TAG_NAME::${{ github.event.pull_request.head.sha }}"
-
-      - name: Retrieve version
-        run: |
-          echo "$tag_name"
-
-      - name: greet
-        id: greet
-        run: |
-          echo "environment is ${GITHUB_REF##*/}"
-          echo "boolean is ${{ github.event.inputs.boolean }}"
-          # echo "choice is on ${{ github.event.inputs.choice }}"
-          # echo ::set-output name=exit_code::$?
-
-      - uses: fregante/setup-git-user@v1
-      # - run: git config user.name "$(git log -n 1 --pretty=format:%an)"
-      # - run: git config user.email "$(git log -n 1 --pretty=format:%ae)"
-
-      - name: initial labeling after success
-        if: ${{ success() && steps.greet.outcome == 'success' }}
-        ### if: ${{ github.event.label.name == 'deploy' || github.event.pull_request.conclusion == 'success' }}
-        uses: andymckay/labeler@master
-        with:
-          add-labels: "deployed-successfully"
-          remove-labels: "deploy"
-
+    - name: Check if the trigger branch is 'master'
+      id: check_branch
+      run: echo "Trigger branch is ${{ github.event.inputs.target-branch }}"
+      
+    - name: Deploy to Production (if on 'master')
+      if: steps.check_branch.outputs.target-branch == 'master'
+      run: |
+        # Add your deployment commands here
+        # For example, you can deploy to your production server
+        # or trigger a deployment pipeline.
+        echo "Deploying to production..."
