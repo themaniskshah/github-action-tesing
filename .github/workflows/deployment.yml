@@ -25,7 +25,6 @@ jobs:
         echo "Deploying to production..."
 
   deploy:
-    runs-on: ubuntu-latest
     if: steps.check_branch.outputs.target-branch == 'master'
     steps:
     - name: Check if the trigger branch is 'master'
