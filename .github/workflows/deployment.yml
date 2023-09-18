@@ -27,6 +27,7 @@ jobs:
 
   second:
     if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main'
+    runs-on: ubuntu-latest
     steps:
     - name: Check if the trigger branch is 'master'
       id: check_branch
