@@ -24,7 +24,7 @@ jobs:
         # or trigger a deployment pipeline.
         echo "Deploying to production..."
 
-  deploy:
+  second:
     if: steps.check_branch.outputs.target-branch == 'master'
     steps:
     - name: Check if the trigger branch is 'master'
