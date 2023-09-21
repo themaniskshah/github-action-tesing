@@ -22,8 +22,8 @@ jobs:
             sudo apt update
             sudo apt install -y gh
 
-      - name: Authenticate with GitHub
-        run: gh auth login --with-token ${{ secrets.TOKEN }}
+    #   - name: Authenticate with GitHub
+    #     run: gh auth login --with-token ${{ secrets.TOKEN }}
 
     #   - name: List PRs
     #     id: list-prs
