@@ -6,12 +6,12 @@ on:
       target-branch:
         description: 'Target branch for deployment'
         required: true
-        default: 'main'
+        default: 'master'
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    if: steps.check_branch.outputs.target-branch == 'main'
+
     steps:
     - name: Check if the trigger branch is 'master'
       id: check_branch
@@ -25,9 +25,9 @@ jobs:
         # or trigger a deployment pipeline.
         echo "Deploying to production..."
 
-  second:
-    if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main'
+  staging:
     runs-on: ubuntu-latest
+    if: steps.check_branch.outputs.target-branch == 'main'
     steps:
     - name: Check if the trigger branch is 'master'
       id: check_branch
