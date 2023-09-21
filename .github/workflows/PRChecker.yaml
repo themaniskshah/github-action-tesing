@@ -25,16 +25,28 @@ jobs:
       - name: Authenticate with GitHub
         run: gh auth login --with-token ${{ secrets.TOKEN }}
 
+    #   - name: List PRs
+    #     id: list-prs
+    #     run: |
+    #       ORGANIZATIONS=("clouddrove" "clouddrove-sandbox") # Add your GitHub organizations here
+    #       PR_LIST=""
+    #       for ORG in "${ORGANIZATIONS[@]}"; do
+    #         PR_LIST+="\nPRs from $ORG:\n"
+    #         PR_LIST+=$(gh pr list -R "$ORG" --json number,title,url --state all --limit 10 | jq -r '.[] | "• [\(.number)] \(.title) (\(.url))"')
+    #       done
+    #       echo "$PR_LIST" > pr_list.txt
+
       - name: List PRs
         id: list-prs
         run: |
-          ORGANIZATIONS=("clouddrove" "clouddrove-sandbox") # Add your GitHub organizations here
-          PR_LIST=""
-          for ORG in "${ORGANIZATIONS[@]}"; do
-            PR_LIST+="\nPRs from $ORG:\n"
-            PR_LIST+=$(gh pr list -R "$ORG" --json number,title,url --state all --limit 10 | jq -r '.[] | "• [\(.number)] \(.title) (\(.url))"')
-          done
-          echo "$PR_LIST" > pr_list.txt
+            ORGANIZATIONS=("org1" "org2") # Add your GitHub organizations here
+            PR_LIST=""
+            for ORG in "${ORGANIZATIONS[@]}"; do
+                PR_LIST+="\nPRs from $ORG:\n"
+                PR_LIST+=$(gh pr list -R "$ORG" --json number,title,url --state all --limit 10 | jq -r '.[] | "• [\(.number)] \(.title) (\(.url))"')
+            done
+            echo "$PR_LIST" > pr_list.txt
+  
 
       - name: Send PR links to Slack
         env:
