@@ -14,14 +14,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-     - name: Install GitHub CLI
-       run: |
-       curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | gpg --dearmor -o /usr/share/keyrings/githubcli-archive-keyring.gpg
-       echo "deb [signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" > github-cli.list.tmp
-       sudo mv github-cli.list.tmp /etc/apt/sources.list.d/github-cli.list
-       sudo apt update
-       sudo apt install -y gh
-        
+      - name: Install GitHub CLI
+        run: |
+        curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | gpg --dearmor -o /usr/share/keyrings/githubcli-archive-keyring.gpg
+        echo "deb [signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" > github-cli.list.tmp
+        sudo mv github-cli.list.tmp /etc/apt/sources.list.d/github-cli.list
+        sudo apt update
+        sudo apt install -y gh
 
       - name: Authenticate with GitHub
         run: gh auth login --with-token <<< "$GITHUB_TOKEN"
