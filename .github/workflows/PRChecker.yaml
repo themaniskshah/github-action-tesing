@@ -39,7 +39,7 @@ jobs:
       - name: List PRs
         id: list-prs
         run: |
-            ORGANIZATIONS=("org1" "org2") # Add your GitHub organizations here
+            ORGANIZATIONS=("clouddrove" "clouddrove-sandbox") # Add your GitHub organizations here
             PR_LIST=""
             for ORG in "${ORGANIZATIONS[@]}"; do
                 PR_LIST+="\nPRs from $ORG:\n"
