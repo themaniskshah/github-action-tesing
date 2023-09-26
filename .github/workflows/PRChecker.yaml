@@ -11,83 +11,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Check Pull Requests
+      id: check_prs
+      run: |
+        ORGANIZATION="clouddrove"
+        GITHUB_TOKEN="${{ secrets.TOKEN }}"
+        
+        PR_LIST=$(gh api "/orgs/$ORGANIZATION/repos" -q ".[].pulls_url" | xargs -I % gh api % -q ".[].html_url")
 
-      - name: Install GitHub CLI
-        run: |
-            curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | gpg --dearmor -o /usr/share/keyrings/githubcli-archive-keyring.gpg
-            echo "deb [signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" > github-cli.list.tmp
-            sudo mv github-cli.list.tmp /etc/apt/sources.list.d/github-cli.list
-            sudo apt update
-            sudo apt install -y gh
+        echo "::set-output name=pr_list::$PR_LIST"
 
-    #   - name: Authenticate with GitHub
-    #     run: gh auth login --with-token ${{ secrets.TOKEN }}
-
-    #   - name: List PRs
-    #     id: list-prs
-    #     run: |
-    #       ORGANIZATIONS=("clouddrove" "clouddrove-sandbox") # Add your GitHub organizations here
-    #       PR_LIST=""
-    #       for ORG in "${ORGANIZATIONS[@]}"; do
-    #         PR_LIST+="\nPRs from $ORG:\n"
-    #         PR_LIST+=$(gh pr list -R "$ORG" --json number,title,url --state all --limit 10 | jq -r '.[] | "• [\(.number)] \(.title) (\(.url))"')
-    #       done
-    #       echo "$PR_LIST" > pr_list.txt
-
-      - name: List PRs
-        id: list-prs
-        run: |
-            ORGANIZATIONS=("clouddrove" "clouddrove-sandbox") # Add your GitHub organizations here
-            PR_LIST=""
-            for ORG in "${ORGANIZATIONS[@]}"; do
-                PR_LIST+="\nPRs from $ORG:\n"
-                PR_LIST+=$(gh pr list -R "$ORG" --json number,title,url --state all --limit 10 | jq -r '.[] | "• [\(.number)] \(.title) (\(.url))"')
-                echo "PR_LIST for $ORG:"
-                echo "$PR_LIST"
-            done
-            echo "$PR_LIST" > pr_list.txt
-
-      # - name: Get all PR URLs
-      #   uses: actions/github-script@v5
-      #   with:
-      #     script: |
-      #         const prs = await github.pulls.list({
-      #           organization: '${{ github.repository_owner }}',
-      #           state: 'open',
-      #         });
-
-      #         const prUrls = prs.data.map(pr => pr.html_url);
-
-      #         return prUrls;
-    
-
-            # ORGANIZATIONS=("clouddrove" "clouddrove-sandbox") # Add your GitHub organizations here
-            # PR_LIST=""
-            # for ORG in "${ORGANIZATIONS[@]}"; do
-            #     PR_LIST+="\nPRs from $ORG:\n"
-            #     PR_LIST+=$(gh pr list -R "$ORG" --json number,title,url --state all --limit 10 | jq -r '.[] | "• [\(.number)] \(.title) (\(.url))"')
-            # done
-            # echo "$PR_LIST" > pr_list.txt
-  
-
-      - name: Send PR links to Slack
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        run: |
-          PR_LIST=$(cat pr_list.txt)
-          curl -X POST -H 'Content-type: application/json' --data "{
-            \"text\": \"$PR_LIST\"
-          }" "$SLACK_WEBHOOK_URL"
-
-      - name: 'Notification'
-        uses: clouddrove/action-slack-notify@1
-        if: always()
-        env:
-            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-            SLACK_MESSAGE: ${{ join(steps.get-all-pr-urls.outputs.prUrls, '\n') }}
-            SLACK_USERNAME: Test
-            SLACK_COLOR: "${{ job.status == 'success' && 'good' || ( job.status == 'failure' && 'danger' || ( job.status == 'cancelled' && 'warning' )) }}"
-        continue-on-error: true
-  
+    - name: Send PR URLs to Slack
+      id: send_to_slack
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      run: |
+        PR_LIST="${{ steps.check_prs.outputs.pr_list }}"
+        SLACK_MESSAGE="Here are the latest Pull Requests in the organization:\n\n$PR_LIST"
+        
+        curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$SLACK_MESSAGE\"}" $SLACK_WEBHOOK_URL
