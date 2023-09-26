@@ -49,6 +49,19 @@ jobs:
             done
             echo "$PR_LIST" > pr_list.txt
 
+      - name: Get all PR URLs
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const prs = await github.pulls.list({
+              organization: '${{ github.repository_owner }}',
+              state: 'open',
+            });
+
+            const prUrls = prs.data.map(pr => pr.html_url);
+
+            return prUrls;
+    
 
             # ORGANIZATIONS=("clouddrove" "clouddrove-sandbox") # Add your GitHub organizations here
             # PR_LIST=""
@@ -67,3 +80,14 @@ jobs:
           curl -X POST -H 'Content-type: application/json' --data "{
             \"text\": \"$PR_LIST\"
           }" "$SLACK_WEBHOOK_URL"
+
+      - name: 'Notification'
+        uses: clouddrove/action-slack-notify@1
+        if: always()
+        env:
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+            SLACK_MESSAGE: ${{ join(steps.get-all-pr-urls.outputs.prUrls, '\n') }}
+            SLACK_USERNAME: Test
+            SLACK_COLOR: "${{ job.status == 'success' && 'good' || ( job.status == 'failure' && 'danger' || ( job.status == 'cancelled' && 'warning' )) }}"
+        continue-on-error: true
+  
