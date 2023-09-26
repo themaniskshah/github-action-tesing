@@ -49,18 +49,18 @@ jobs:
             done
             echo "$PR_LIST" > pr_list.txt
 
-      - name: Get all PR URLs
-        uses: actions/github-script@v5
-        with:
-          script: |
-            const prs = await github.pulls.list({
-              organization: '${{ github.repository_owner }}',
-              state: 'open',
-            });
+      # - name: Get all PR URLs
+      #   uses: actions/github-script@v5
+      #   with:
+      #     script: |
+      #         const prs = await github.pulls.list({
+      #           organization: '${{ github.repository_owner }}',
+      #           state: 'open',
+      #         });
 
-            const prUrls = prs.data.map(pr => pr.html_url);
+      #         const prUrls = prs.data.map(pr => pr.html_url);
 
-            return prUrls;
+      #         return prUrls;
     
 
             # ORGANIZATIONS=("clouddrove" "clouddrove-sandbox") # Add your GitHub organizations here
