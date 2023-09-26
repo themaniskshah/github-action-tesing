@@ -39,7 +39,7 @@ jobs:
       - name: List PRs
         id: list-prs
         run: |
-            ORGANIZATIONS=("org1" "org2") # Add your GitHub organizations here
+            ORGANIZATIONS=("clouddrove" "clouddrove-sandbox") # Add your GitHub organizations here
             PR_LIST=""
             for ORG in "${ORGANIZATIONS[@]}"; do
                 PR_LIST+="\nPRs from $ORG:\n"
@@ -85,7 +85,7 @@ jobs:
         uses: clouddrove/action-slack-notify@1
         if: always()
         env:
-            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
             SLACK_MESSAGE: ${{ join(steps.get-all-pr-urls.outputs.prUrls, '\n') }}
             SLACK_USERNAME: Test
             SLACK_COLOR: "${{ job.status == 'success' && 'good' || ( job.status == 'failure' && 'danger' || ( job.status == 'cancelled' && 'warning' )) }}"
