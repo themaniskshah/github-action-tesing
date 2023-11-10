@@ -27,7 +27,7 @@ jobs:
         # Add your deployment commands here
         # For example, you can deploy to your production server
         # or trigger a deployment pipeline.
-        echo "Deploying to production..."
+        echo "Deploying to production......."
 
   # staging:
   #   runs-on: ubuntu-latest
