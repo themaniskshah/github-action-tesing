@@ -9,6 +9,8 @@ on:
   workflow_run:
     # branches: [feature/reusable-stage]
     workflows: [Remove labels]
+    branches:
+      - github.event.workflow_run.head_branch
     types:
       - completed
 
