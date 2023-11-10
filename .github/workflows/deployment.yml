@@ -3,12 +3,14 @@ on:
   # workflow_dispatch:
   #   inputs:
   #     target-branch:
-  #       description: 'Target branch for deployment'
+  #       description: 'Target branch for '
   #       required: true
   #       default: 'master'
   workflow_run:
     # branches: [feature/reusable-stage]
     workflows: [Remove labels]
+    branches:
+      - github.event.workflow_run.head_branch
     types:
       - completed
 
@@ -17,6 +19,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
     - name: Check if the trigger branch is 'master'
       id: check_branch
       run: echo "Trigger branch is ${{ github.event.inputs.target-branch }}"
@@ -27,7 +32,7 @@ jobs:
         # Add your deployment commands here
         # For example, you can deploy to your production server
         # or trigger a deployment pipeline.
-        echo "Deploying to production..."
+        echo "Deploying to production......."
 
   # staging:
   #   runs-on: ubuntu-latest
