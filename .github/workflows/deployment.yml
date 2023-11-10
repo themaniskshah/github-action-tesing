@@ -3,7 +3,7 @@ on:
   # workflow_dispatch:
   #   inputs:
   #     target-branch:
-  #       description: 'Target branch for deployment'
+  #       description: 'Target branch for '
   #       required: true
   #       default: 'master'
   workflow_run:
