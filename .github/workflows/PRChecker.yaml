@@ -9,6 +9,8 @@ on:
         type: choice
         options:
           - pre-release
+          - dev
+          - prod
 
       db_operation:
          description: 'Database operation to perform'
@@ -19,6 +21,17 @@ on:
            - test
            - restore
            - restore-db
+
+      run_db_dump:
+        description: "Run DB dump?"
+        required: true
+        type: boolean
+        default: false
+      run_certbot:
+        description: "Run Certbot?"
+        required: true
+        type: boolean
+        default: false
 
 jobs:
   pr_checker:
