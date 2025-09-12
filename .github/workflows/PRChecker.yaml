@@ -5,36 +5,20 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Target environment'
+        description: "Target environment (dev or pre-release)"
         required: true
         type: choice
         options:
-          - pre-release
           - dev
+          - pre-release
           - prod
-
-      db_operation:
-         description: 'Database operation to perform'
-         required: false
-         type: choice
-         options:
-           - backup
-           - test
-           - restore
-           - restore-db
-
-      file-changes:
-         description: 'files operation to perform'
-         required: false
-         type: choice
-         options:
-           - backup
-           - test
-           - restore
-           - restore-db
-
       run_db_dump:
         description: "Run DB dump?"
+        required: false
+        type: boolean
+        default: false
+      run_customerio:
+        description: "Run Customerio?"
         required: false
         type: boolean
         default: false
@@ -43,9 +27,9 @@ on:
         required: false
         type: boolean
         default: false
-      run_file:
-        description: "Run File?"
-        required: true
+      run_initial:
+        description: "Run Initial?"
+        required: false
         type: boolean
         default: false
 
