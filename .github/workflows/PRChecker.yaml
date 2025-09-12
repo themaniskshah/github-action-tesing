@@ -34,12 +34,12 @@ on:
 
       run_db_dump:
         description: "Run DB dump?"
-        required: true
+        required: false
         type: boolean
         default: false
       run_certbot:
         description: "Run Certbot?"
-        required: true
+        required: false
         type: boolean
         default: false
       run_file:
@@ -85,13 +85,13 @@ jobs:
     steps:
       - run: echo "Deploy B to ${{ inputs.environment }}"
   
-  c_db_dump:
+  db_dump:
     runs-on: ubuntu-latest
     if: ${{ contains(fromJSON('["dev","pre-release"]'), inputs.environment) && inputs.run_db_dump }}
     steps:
       - run: echo "DB dump for ${{ inputs.environment }}"
-  
-  d_certbot:
+
+  certbot:
     runs-on: ubuntu-latest
     if: ${{ contains(fromJSON('["dev","pre-release"]'), inputs.environment) && inputs.run_certbot }}
     steps:
