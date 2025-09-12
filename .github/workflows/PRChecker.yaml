@@ -1,6 +1,7 @@
 name: PR Checker and Slack Notifier
 
 on:
+  push:
   workflow_dispatch:
     inputs:
       environment:
