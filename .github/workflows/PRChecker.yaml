@@ -72,3 +72,27 @@ jobs:
         SLACK_MESSAGE="Here are the latest Pull Requests in the organization:\n\n$PR_LIST"
         
         curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$SLACK_MESSAGE\"}" $SLACK_WEBHOOK_URL
+
+  a:
+    runs-on: ubuntu-latest
+    if: ${{ contains(fromJSON('["dev","pre-release"]'), inputs.environment) }}
+    steps:
+      - run: echo "Deploy A to ${{ inputs.environment }}"
+  
+  b:
+    runs-on: ubuntu-latest
+    if: ${{ contains(fromJSON('["dev","pre-release"]'), inputs.environment) }}
+    steps:
+      - run: echo "Deploy B to ${{ inputs.environment }}"
+  
+  c_db_dump:
+    runs-on: ubuntu-latest
+    if: ${{ contains(fromJSON('["dev","pre-release"]'), inputs.environment) && inputs.run_db_dump }}
+    steps:
+      - run: echo "DB dump for ${{ inputs.environment }}"
+  
+  d_certbot:
+    runs-on: ubuntu-latest
+    if: ${{ contains(fromJSON('["dev","pre-release"]'), inputs.environment) && inputs.run_certbot }}
+    steps:
+      - run: echo "Certbot for ${{ inputs.environment }}"
