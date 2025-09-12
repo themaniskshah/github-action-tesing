@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: "Target environment (dev or pre-release)"
+        description: "Target environment (dev, pre-release, or prod)"
         required: true
         type: choice
         options:
