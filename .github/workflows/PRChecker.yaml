@@ -22,6 +22,16 @@ on:
            - restore
            - restore-db
 
+      file-changes:
+         description: 'files operation to perform'
+         required: false
+         type: choice
+         options:
+           - backup
+           - test
+           - restore
+           - restore-db
+
       run_db_dump:
         description: "Run DB dump?"
         required: true
@@ -29,6 +39,11 @@ on:
         default: false
       run_certbot:
         description: "Run Certbot?"
+        required: true
+        type: boolean
+        default: false
+      run_file:
+        description: "Run File?"
         required: true
         type: boolean
         default: false
