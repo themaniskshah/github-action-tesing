@@ -34,22 +34,26 @@ on:
         type: boolean
         default: false
 
-      db-restore:
-        description: "Select DB restore app name"
+    # Add to on.workflow_dispatch.inputs
+      restore_app:
+        description: 'DB app to restore'
         required: true
         type: choice
-        options:
-          - powerbi
-          - tableau
+        options: [powerbi, tableau]
 
 jobs:
   pr_checker:
     runs-on: ubuntu-latest
+    strategy:
+      matrix: 
+        APP_NAME: ${{ fromJSON(format('{"APP_NAME":["{0}"]}', inputs.restore_app)) }}
 
     steps:
     - name: Check Pull Requests
       id: check_prs
       run: |
+        APP_NAME: ${{ matrix.APP_NAME }}
+        echo $APP_NAME
         ORGANIZATION="clouddrove"
         GITHUB_TOKEN="${{ secrets.TOKEN }}"
         
