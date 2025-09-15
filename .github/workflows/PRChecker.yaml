@@ -1,8 +1,6 @@
 name: PR Checker and Slack Notifier
 
 on:
-  push:
-  pull_request:
   workflow_dispatch:
     inputs:
       environment:
@@ -71,26 +69,26 @@ jobs:
         
         curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$SLACK_MESSAGE\"}" $SLACK_WEBHOOK_URL
 
-  a:
-    runs-on: ubuntu-latest
-    if: ${{ contains(fromJSON('["dev","pre-release"]'), inputs.environment) }}
-    steps:
-      - run: echo "Deploy A to ${{ inputs.environment }}"
+  # a:
+  #   runs-on: ubuntu-latest
+  #   if: ${{ contains(fromJSON('["dev","pre-release"]'), inputs.environment) }}
+  #   steps:
+  #     - run: echo "Deploy A to ${{ inputs.environment }}"
   
-  b:
-    runs-on: ubuntu-latest
-    if: ${{ contains(fromJSON('["dev","pre-release"]'), inputs.environment) }}
-    steps:
-      - run: echo "Deploy B to ${{ inputs.environment }}"
+  # b:
+  #   runs-on: ubuntu-latest
+  #   if: ${{ contains(fromJSON('["dev","pre-release"]'), inputs.environment) }}
+  #   steps:
+  #     - run: echo "Deploy B to ${{ inputs.environment }}"
   
-  db_dump:
-    runs-on: ubuntu-latest
-    if: ${{ contains(fromJSON('["dev","pre-release"]'), inputs.environment) && inputs.run_db_dump }}
-    steps:
-      - run: echo "DB dump for ${{ inputs.environment }}"
+  # db_dump:
+  #   runs-on: ubuntu-latest
+  #   if: ${{ contains(fromJSON('["dev","pre-release"]'), inputs.environment) && inputs.run_db_dump }}
+  #   steps:
+  #     - run: echo "DB dump for ${{ inputs.environment }}"
 
-  certbot:
-    runs-on: ubuntu-latest
-    if: ${{ contains(fromJSON('["dev","pre-release"]'), inputs.environment) && inputs.run_certbot }}
-    steps:
-      - run: echo "Certbot for ${{ inputs.environment }}"
+  # certbot:
+  #   runs-on: ubuntu-latest
+  #   if: ${{ contains(fromJSON('["dev","pre-release"]'), inputs.environment) && inputs.run_certbot }}
+  #   steps:
+  #     - run: echo "Certbot for ${{ inputs.environment }}"
