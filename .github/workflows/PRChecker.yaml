@@ -34,6 +34,14 @@ on:
         type: boolean
         default: false
 
+      db-restore:
+        description: "Select DB restore app name"
+        required: true
+        type: choice
+        options:
+          - powerbi
+          - tableau
+
 jobs:
   pr_checker:
     runs-on: ubuntu-latest
