@@ -50,7 +50,7 @@ jobs:
         run: |
           echo "Determining environment and image name..."
           if [[ "$GITHUB_EVENT_NAME" == "schedule" ]]; then
-            if [[ "$GITHUB_EVENT_SCHEDULE" == "*/9 * * * *" ]]; then
+            if [[ "$GITHUB_EVENT_SCHEDULE" == "*/6 * * * *" ]]; then
               ENV_NAME="prod"
             elif [[ "$GITHUB_EVENT_SCHEDULE" == "*/5 * * * *" ]]; then
               ENV_NAME="pre-release"
