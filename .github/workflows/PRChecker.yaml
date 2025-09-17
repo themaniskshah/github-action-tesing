@@ -95,6 +95,17 @@ jobs:
         run: |
            echo $environment=${{ needs.set-environment.outputs.ENV_NAME }}
 
+  Test-db:
+    runs-on: ubuntu-latest
+    needs: [set-environment,backup-db]
+    strategy:
+      matrix:
+        APP_NAME: ${{ fromJSON((github.event_name == 'schedule' && '["powerbi","tableau"]') || format('["{0}"]', inputs.application_name)) }}
+    steps:
+      - name: ${{ matrix.APP_NAME }}-${{ needs.set-environment.outputs.ENV_NAME }}
+        run: echo "Deploy A to ${{ matrix.APP_NAME }}"
+
+
   restore-db:
     runs-on: ubuntu-latest
     needs: set-environment
@@ -119,23 +130,6 @@ jobs:
         id: send_to_slack
         run: |
            echo $environment=${{ needs.set-environment.outputs.ENV_NAME }}
-           
-
-  Test-db:
-    runs-on: ubuntu-latest
-    needs: backup-db
-    strategy:
-      matrix:
-        APP_NAME: ${{ fromJSON((github.event_name == 'schedule' && '["powerbi","tableau"]') || format('["{0}"]', inputs.application_name)) }}
-    steps:
-      - name: ${{ matrix.APP_NAME }}-${{ needs.set-environment.outputs.ENV_NAME }}
-        run: echo "Deploy A to ${{ matrix.APP_NAME }}"
-  
-  b:
-    runs-on: ubuntu-latest
-    if: ${{ contains(fromJSON('["dev","pre-release"]'), inputs.environment) }}
-    steps:
-      - run: echo "Deploy B to ${{ inputs.environment }}"
   
   db_dump:
     runs-on: ubuntu-latest
