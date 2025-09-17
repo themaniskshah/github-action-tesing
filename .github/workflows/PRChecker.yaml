@@ -29,13 +29,48 @@ on:
           -
           - powerbi
           - tableau
+  schedule:
+    - cron: '3 * * * *' # Database: Backup, Test (Pre-release)
 
 jobs:
+  set-environment:
+    runs-on: ubuntu-latest
+    outputs:
+      ENV_NAME: ${{ steps.setenv.outputs.ENV_NAME }}
+    steps:
+      - id: setenv
+        env:
+          DISPATCH_ENV: ${{ github.event.inputs.environment || '' }}
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          GITHUB_REF: ${{ github.ref }}
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+          GITHUB_BASE_REF_NAME: ${{ github.base_ref }}
+          GITHUB_EVENT_SCHEDULE: ${{ github.event.schedule || '' }}
+        run: |
+          echo "Determining environment and image name..."
+          if [[ "$GITHUB_EVENT_NAME" == "schedule" && "$GITHUB_EVENT_SCHEDULE" == "30 01 * * *" ]]; then
+            ENV_NAME="pre-release"
+          elif [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
+            ENV_NAME="$DISPATCH_ENV"
+          elif [[ "$GITHUB_BASE_REF_NAME" == "pre-release" || "$GITHUB_REF_NAME" == "pre-release" ]]; then
+            ENV_NAME=pre-release
+          elif [[ "$GITHUB_REF" == refs/tags/* || "$GITHUB_BASE_REF_NAME" == "master" || "$GITHUB_REF_NAME" == "master" ]]; then
+            ENV_NAME=prod
+          else
+            ENV_NAME=pre-release
+          fi
+          echo "ENV_NAME=$ENV_NAME"
+          echo "ENV_NAME=$ENV_NAME" >> $GITHUB_OUTPUT
+
   pr_checker:
     runs-on: ubuntu-latest
-
+    needs: set-environment
+    if: |
+      (github.event_name == 'schedule' && contains(fromJSON('["3 * * * *"]'), github.event.schedule)) ||
+      (github.event_name == 'workflow_dispatch' && contains(fromJSON('["dev","pre-release"]'), inputs.environment) &&
+        inputs.run_backup_db && contains(fromJSON('["powerbi","tableau"]'), inputs.application_name))
     steps:
-    - name: Check Pull Requests
+    - name: ${{ inputs.application_name }}-${{ needs.set-environment.outputs.ENV_NAME }}
       env:
         APP_NAME: ${{ inputs.restore_app }}
       id: check_prs
@@ -50,13 +85,8 @@ jobs:
 
     - name: Send PR URLs to Slack
       id: send_to_slack
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       run: |
-        PR_LIST="${{ steps.check_prs.outputs.pr_list }}"
-        SLACK_MESSAGE="Here are the latest Pull Requests in the organization:\n\n$PR_LIST"
-        
-        curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$SLACK_MESSAGE\"}" $SLACK_WEBHOOK_URL
+         echo $environment=${{ needs.set-environment.outputs.ENV_NAME }}
 
   a:
     runs-on: ubuntu-latest
