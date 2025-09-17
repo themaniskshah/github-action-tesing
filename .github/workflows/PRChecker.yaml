@@ -95,6 +95,32 @@ jobs:
         run: |
            echo $environment=${{ needs.set-environment.outputs.ENV_NAME }}
 
+  restore-db:
+    runs-on: ubuntu-latest
+    needs: set-environment
+    if: github.event_name == 'workflow_dispatch' && inputs.run_restore_db && contains(fromJSON('["powerbi","tableau"]'), inputs.application_name)
+    strategy:
+      matrix:
+        APP_NAME: ${{ fromJSON(format('["{0}"]', inputs.application_name)) }}
+    steps:
+      - name: ${{ matrix.APP_NAME }}-${{ needs.set-environment.outputs.ENV_NAME }}
+        env:
+          APP_NAME: ${{ inputs.application_name }}
+          SCHEDULE: $GITHUB_EVENT_SCHEDULE
+          ENV_NAME: ${{ needs.set-environment.outputs.ENV_NAME }}
+        id: check_prs
+        run: |
+          echo "APP_NAME: ${{ matrix.APP_NAME }}"
+          echo "App: $APP_NAME"
+          echo "ENV: $ENV_NAME"
+          echo "Schedule: ${SCHEDULE:-<none>}"
+  
+      - name: Send PR URLs to Slack
+        id: send_to_slack
+        run: |
+           echo $environment=${{ needs.set-environment.outputs.ENV_NAME }}
+           
+
   a:
     runs-on: ubuntu-latest
     needs: backup-db
