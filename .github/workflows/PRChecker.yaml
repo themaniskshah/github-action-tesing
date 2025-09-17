@@ -73,10 +73,11 @@ jobs:
       matrix:
         APP_NAME: ${{ fromJSON((github.event_name == 'schedule' && '["powerbi","tableau"]') || format('["{0}"]', inputs.application_name)) }}
     steps:
-      - name: ${{ inputs.application_name }}-${{ needs.set-environment.outputs.ENV_NAME }}
+      - name: ${{ matrix.APP_NAME }}-${{ needs.set-environment.outputs.ENV_NAME }}
         env:
           APP_NAME: ${{ inputs.application_name }}
           SCHEDULE: $GITHUB_EVENT_SCHEDULE
+          ENV_NAME: ${{ needs.set-environment.outputs.ENV_NAME }}
         id: check_prs
         run: |
           echo "APP_NAME: ${{ matrix.APP_NAME }}"
