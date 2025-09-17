@@ -48,7 +48,7 @@ jobs:
           GITHUB_EVENT_SCHEDULE: ${{ github.event.schedule || '' }}
         run: |
           echo "Determining environment and image name..."
-          if [[ "$GITHUB_EVENT_NAME" == "schedule" && "$GITHUB_EVENT_SCHEDULE" == "30 01 * * *" ]]; then
+          if [[ "$GITHUB_EVENT_NAME" == "schedule" && "$GITHUB_EVENT_SCHEDULE" == "*/5 * * * *" ]]; then
             ENV_NAME="pre-release"
           elif [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
             ENV_NAME="$DISPATCH_ENV"
