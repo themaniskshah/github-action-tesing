@@ -121,11 +121,15 @@ jobs:
            echo $environment=${{ needs.set-environment.outputs.ENV_NAME }}
            
 
-  a:
+  Test-db:
     runs-on: ubuntu-latest
     needs: backup-db
+    strategy:
+      matrix:
+        APP_NAME: ${{ fromJSON((github.event_name == 'schedule' && '["powerbi","tableau"]') || format('["{0}"]', inputs.application_name)) }}
     steps:
-      - run: echo "Deploy A to ${{ inputs.environment }}"
+      - name: ${{ matrix.APP_NAME }}-${{ needs.set-environment.outputs.ENV_NAME }}
+        run: echo "Deploy A to ${{ matrix.APP_NAME }}"
   
   b:
     runs-on: ubuntu-latest
