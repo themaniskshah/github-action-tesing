@@ -71,26 +71,28 @@ jobs:
         inputs.run_backup_db && contains(fromJSON('["powerbi", "tableau"]'), inputs.application_name))
     strategy:
       matrix:
-        APP_NAME: ${{ fromJSON(
-          github.event_name == 'schedule'
-            ? '["powerbi", "tableau"]'
-            : format('["{0}"]', inputs.application_name)
-        ) }}
-  steps:
-    - name: ${{ inputs.application_name }}-${{ needs.set-environment.outputs.ENV_NAME }}
-      env:
-        APP_NAME: ${{ inputs.application_name }}
-        SCHEDULE: $GITHUB_EVENT_SCHEDULE
-      id: check_prs
-      run: |
-        echo "App: $APP_NAME"
-        echo "ENV: $ENV_NAME"
-        echo "Schedule: ${SCHEDULE:-<none>}"
-
-    - name: Send PR URLs to Slack
-      id: send_to_slack
-      run: |
-         echo $environment=${{ needs.set-environment.outputs.ENV_NAME }}
+        APP_NAME: >-
+          ${{ fromJSON(
+            github.event_name == 'schedule'
+              ? '["powerbi","tableau"]'
+              : format('["{0}"]', inputs.application_name)
+          ) }}
+    steps:
+      - name: ${{ inputs.application_name }}-${{ needs.set-environment.outputs.ENV_NAME }}
+        env:
+          APP_NAME: ${{ inputs.application_name }}
+          SCHEDULE: $GITHUB_EVENT_SCHEDULE
+        id: check_prs
+        run: |
+          echo "APP_NAME: ${{ matrix.APP_NAME }}"
+          echo "App: $APP_NAME"
+          echo "ENV: $ENV_NAME"
+          echo "Schedule: ${SCHEDULE:-<none>}"
+  
+      - name: Send PR URLs to Slack
+        id: send_to_slack
+        run: |
+           echo $environment=${{ needs.set-environment.outputs.ENV_NAME }}
 
   a:
     runs-on: ubuntu-latest
