@@ -71,10 +71,10 @@ jobs:
         inputs.run_backup_db && contains(fromJSON('["powerbi","tableau"]'), inputs.application_name))
     strategy:
       matrix: ${{ fromJSON(
-        github.event_name == 'schedule'
-          ? '{"APP_NAME":["powerbi","tableau"]}'
-          : format('{{"APP_NAME":["{0}"]}}', inputs.application_name)
-      ) }}
+          github.event_name == 'schedule'
+            ? '{"APP_NAME":["powerbi","tableau"]}'
+            : format('{{"APP_NAME":["{0}"]}}', inputs.application_name)
+        ) }}
     steps:
     - name: ${{ inputs.application_name }}-${{ needs.set-environment.outputs.ENV_NAME }}
       env:
