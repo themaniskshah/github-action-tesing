@@ -67,13 +67,13 @@ jobs:
     needs: set-environment
     if: |
       (github.event_name == 'schedule' && contains(fromJSON('["*/5 * * * *"]'), github.event.schedule)) ||
-      (github.event_name == 'workflow_dispatch' && contains(fromJSON('["dev","pre-release"]'), inputs.environment) &&
-        inputs.run_backup_db && contains(fromJSON('["powerbi","tableau"]'), inputs.application_name))
+      (github.event_name == 'workflow_dispatch' && contains(fromJSON('["dev", "pre-release"]'), inputs.environment) &&
+        inputs.run_backup_db && contains(fromJSON('["powerbi", "tableau"]'), inputs.application_name))
     strategy:
       matrix:
         APP_NAME: ${{ fromJSON(
           github.event_name == 'schedule'
-            ? '["powerbi","tableau"]'
+            ? '["powerbi", "tableau"]'
             : format('["{0}"]', inputs.application_name)
         ) }}
   steps:
