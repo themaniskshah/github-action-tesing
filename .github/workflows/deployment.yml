@@ -1,47 +1,108 @@
-# .github/workflows/deploy-bi.yml
-name: Deploy BI
+# .github/workflows/ci-cd.yml
+name: CI-CD
 
 on:
+  push:
+    branches: [dev, pre-release, master, feat/ci-cd]
+    tags: ["*"]
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [dev, pre-release, master, feat/ci-cd]
   workflow_dispatch:
     inputs:
-      app:
-        description: 'Which BI application to deploy'
+      environment:
+        description: "Target environment (dev, pre-release, prod)"
         required: true
         type: choice
+        options: [dev, pre-release, prod]
+      app:
+        description: "Application (required only for prod)"
+        required: false
+        type: choice
         options:
+          - none
           - tableau
           - powerbi
-      environment:
-        description: 'Target environment (select repository Environment)'
-        required: true
-        type: environment
-      run_refresh:
-        description: 'Run post-deploy data refresh'
+        default: none
+      run_db_dump:
+        description: "Run DB dump?"
         required: false
         type: boolean
-        default: true
+        default: false
+      run_customerio:
+        description: "Run Customerio?"
+        required: false
+        type: boolean
+        default: false
+      run_certbot:
+        description: "Run Certbot?"
+        required: false
+        type: boolean
+        default: false
+      run_initial:
+        description: "Run Initial? (dev only)"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
 
 jobs:
+  validate:
+    name: Validate inputs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enforce app selection rules
+        run: |
+          if [[ "${{ inputs.environment }}" == "prod" && "${{ inputs.app }}" == "none" ]]; then
+            echo "Error: Select an app (tableau or powerbi) for prod." >&2
+            exit 1
+          fi
+          if [[ "${{ inputs.environment }}" != "prod" && "${{ inputs.app }}" != "none" ]]; then
+            echo "Error: App must be 'none' for non-prod (dev/pre-release)." >&2
+            exit 1
+          fi
+          echo "Inputs are valid."
+
   deploy_tableau:
-    if: ${{ inputs.app == 'tableau' }}
+    needs: validate
+    if: ${{ inputs.environment == 'prod' && inputs.app == 'tableau' }}
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
       - uses: actions/checkout@v4
-      - name: Deploy Tableau assets
+      - name: Deploy Tableau
         run: echo "Deploying Tableau to ${{ inputs.environment }}..."
-      - name: Refresh Tableau data
-        if: ${{ inputs.run_refresh }}
-        run: echo "Refreshing Tableau data..."
 
   deploy_powerbi:
-    if: ${{ inputs.app == 'powerbi' }}
+    needs: validate
+    if: ${{ inputs.environment == 'prod' && inputs.app == 'powerbi' }}
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
       - uses: actions/checkout@v4
-      - name: Deploy Power BI assets
+      - name: Deploy Power BI
         run: echo "Deploying Power BI to ${{ inputs.environment }}..."
-      - name: Refresh Power BI data
-        if: ${{ inputs.run_refresh }}
-        run: echo "Refreshing Power BI data..."
+
+  deploy_common_nonprod:
+    needs: validate
+    if: ${{ inputs.environment != 'prod' }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Non-prod deploy steps
+        run: echo "Deploying to ${{ inputs.environment }}..."
+      - name: Initial (dev only)
+        if: ${{ inputs.environment == 'dev' && inputs.run_initial }}
+        run: echo "Running initial bootstrap for dev..."
+      - name: DB dump
+        if: ${{ inputs.run_db_dump }}
+        run: echo "DB dump..."
+      - name: Customerio
+        if: ${{ inputs.run_customerio }}
+        run: echo "Customerio..."
+      - name: Certbot
+        if: ${{ inputs.run_certbot }}
+        run: echo "Certbot..."
