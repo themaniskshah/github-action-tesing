@@ -29,9 +29,9 @@ on:
           -
           - powerbi
           - tableau
-  schedule:
-    - cron: '*/5 * * * *' # Database: Backup, Test (Pre-release)
-    - cron: '*/6 * * * *'
+  # schedule:
+  #   - cron: '*/5 * * * *' # Database: Backup, Test (Pre-release)
+  #   - cron: '*/6 * * * *'
 
 jobs:
   set-environment:
