@@ -15,15 +15,6 @@ on:
         required: true
         type: choice
         options: [dev, pre-release, prod]
-      app:
-        description: "Application (required only for prod)"
-        required: false
-        type: choice
-        options:
-          - none
-          - tableau
-          - powerbi
-        default: none
       run_db_dump:
         description: "Run DB dump?"
         required: false
@@ -44,6 +35,15 @@ on:
         required: false
         type: boolean
         default: false
+      app:
+        description: "Application (required only for prod)"
+        required: false
+        type: choice
+        options:
+          - none
+          - tableau
+          - powerbi
+        default: none
 
 permissions:
   contents: read
