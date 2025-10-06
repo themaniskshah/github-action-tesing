@@ -29,6 +29,13 @@ on:
           -
           - powerbi
           - tableau
+
+      DB_RESTORATION_FILE:
+        description: 'Provide backup file name to restore '
+        required: false
+        default: ''
+        type: string
+          
   # schedule:
   #   - cron: '*/5 * * * *' # Database: Backup, Test (Pre-release)
   #   - cron: '*/6 * * * *'
